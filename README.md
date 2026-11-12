@@ -2,8 +2,6 @@
 
 Tài liệu, hướng dẫn và kinh nghiệm thực tế của mình về làm sản phẩm phần mềm với AI, chia sẻ cho bạn bè và cộng đồng dev Việt Nam.
 
-Viết bằng tiếng Việt, giữ thuật ngữ kỹ thuật bằng tiếng Anh. Ngắn gọn, có prompt mẫu để dùng ngay.
-
 ## Mục lục
 
 | Tài liệu | Nội dung |
