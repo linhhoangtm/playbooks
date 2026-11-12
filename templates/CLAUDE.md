@@ -51,6 +51,7 @@ Xóa các comment này sau khi điền.
 - Không đọc / sửa: `.env*`, `<file khóa, keystore, cấu hình production>`.
 - Không chạy migrate / seed vào DB không phải local.
 - Không sửa code không liên quan đến task.
+- Các điều cấm trên được chặn cứng thêm trong `.claude/settings.json`; bị chặn thì hỏi, không tìm cách vòng.
 
 ## Sau mỗi thay đổi
 

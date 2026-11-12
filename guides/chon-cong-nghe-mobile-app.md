@@ -99,7 +99,7 @@ Mục này là nhận định từ kinh nghiệm dùng AI, không phải số li
 
 **Cách làm chung cho mọi công nghệ:**
 
-- Ghi stack, phiên bản và cấu trúc thư mục vào `AGENTS.md` / `CLAUDE.md`.
+- Ghi stack, phiên bản và cấu trúc thư mục vào `CLAUDE.md` (mẫu: [templates/CLAUDE.md](../templates/CLAUDE.md)), hoặc `AGENTS.md` nếu team dùng nhiều công cụ AI.
 - Tạo trước một feature mẫu thật chuẩn để AI bắt chước.
 - Bật lint và analyzer ở mức chặt, để AI tự sửa lỗi theo thông báo của công cụ.
 - Luôn test trên máy thật, đặc biệt máy Android cấu hình thấp.
@@ -139,7 +139,8 @@ Nếu phải tự viết code native, ước lượng công sức cho iOS và An
 ```text
 Tạo dự án <Flutter / React Native Expo> cho app <tên>, phiên bản mới nhất ổn định.
 Cấu trúc feature-first, state management <BLoC / Zustand>, database local <drift / SQLite>, i18n tiếng Việt và tiếng Anh.
-Tạo sẵn một feature mẫu hoàn chỉnh (màn hình, state, repository, test) và viết AGENTS.md mô tả cấu trúc, lệnh build và test.
+Tạo sẵn một feature mẫu hoàn chỉnh (màn hình, state, repository, test) và viết CLAUDE.md theo mẫu templates/CLAUDE.md:
+cấu trúc, lệnh build và test, quy ước, điều cấm.
 ```
 
 ## Nguồn

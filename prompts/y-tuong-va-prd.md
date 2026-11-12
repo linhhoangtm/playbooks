@@ -13,10 +13,15 @@ Sau khi mình trả lời, viết brief ≤ 150 chữ: Vấn đề · Người d
 
 ## Kiểm chứng thị trường
 
+Bật Web search hoặc Research trước khi gửi.
+
 ```
 Tìm trên web các sản phẩm đang giải quyết vấn đề: <vấn đề>, ưu tiên thị trường <Việt Nam / quốc tế>.
-Với 5 sản phẩm nổi bật: làm tốt gì, user phàn nàn gì (review App Store / Google Play, diễn đàn), giá, mô hình kiếm tiền.
-Kết luận: khoảng trống còn lại, 3 rủi ro lớn nhất khiến ý tưởng này thất bại, 3 cách kiểm chứng rẻ nhất trong 2 tuần.
+Với 5–10 sản phẩm nổi bật: nền tảng, lượt tải hoặc traffic, làm tốt gì, user phàn nàn gì
+(review 1–2 sao trên App Store / Google Play, diễn đàn), giá, mô hình kiếm tiền.
+Có tín hiệu nhu cầu nào không (nhóm Facebook, Reddit, lượng tìm kiếm)?
+Kết luận: khoảng trống còn lại, 3 rủi ro lớn nhất khiến ý tưởng này thất bại,
+3 cách kiểm chứng rẻ nhất trong 2 tuần, Go / No-go kèm 3 lý do.
 Ghi nguồn cho từng nhận định. Không có nguồn thì ghi rõ là suy đoán.
 ```
 
@@ -25,7 +30,8 @@ Ghi nguồn cho từng nhận định. Không có nguồn thì ghi rõ là suy �
 ```
 Đóng vai nhà đầu tư khó tính. Đọc brief sau và chỉ ra:
 - 5 lý do ý tưởng này sẽ thất bại, xếp theo mức nguy hiểm
-- giả định nào mình đang coi là đúng mà chưa có bằng chứng
+- giả định nào mình đang coi là đúng mà chưa có bằng chứng, và cách kiểm tra nó trong 1 tuần không cần code
+- ai đang trả tiền để giải quyết vấn đề này hôm nay
 - nếu chỉ được làm 1 tính năng, đó là gì
 Không khen. Brief: <dán>
 ```
@@ -36,8 +42,9 @@ Không khen. Brief: <dán>
 Viết PRD 1 trang từ brief và kết quả kiểm chứng (dán bên dưới):
 1. Bối cảnh & vấn đề  2. Mục tiêu + chỉ số (có số cụ thể)  3. Persona (1–2)
 4. User journey chính (5–7 bước)  5. Tính năng  6. Ngoài phạm vi
-7. Giả định cần kiểm chứng  8. Ràng buộc (thời gian, ngân sách, nền tảng)  9. Câu hỏi mở
-Không viết giải pháp kỹ thuật. Giả định nào bạn tự thêm thì đánh dấu [GIẢ ĐỊNH].
+7. Giả định cần kiểm chứng  8. Ràng buộc và yêu cầu phi chức năng (thời gian, ngân sách, nền tảng,
+offline, bảo mật, số user dự kiến)  9. Câu hỏi mở
+Không viết user story (làm riêng ở bước BA), không viết giải pháp kỹ thuật. Giả định nào bạn tự thêm thì đánh dấu [GIẢ ĐỊNH].
 Theo mẫu templates/PRD.md nếu mình đính kèm.
 ```
 

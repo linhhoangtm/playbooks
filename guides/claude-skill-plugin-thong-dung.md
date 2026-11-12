@@ -99,6 +99,8 @@ Viết 5 câu nên kích hoạt, 3 câu không nên kích hoạt, rồi test.
 
 ## 3. Plugin quy trình code
 
+> Claude Code bản mới có sẵn một số lệnh không cần cài plugin: `/code-review` (review diff hoặc PR, có nhiều mức kỹ), `/simplify` (làm gọn code vừa đổi), `/security-review`. Gõ `/` để xem bản của bạn có những lệnh nào. Nếu đã có sẵn, cài thêm plugin cùng chức năng (code-review, code-simplifier) dễ trùng tên lệnh; chỉ cài khi cần tính năng riêng của plugin.
+
 ### commit-commands
 
 Cài: `/plugin install commit-commands@claude-plugins-official`
@@ -315,7 +317,7 @@ Các skill này nằm trong `example-skills@anthropic-agent-skills` (Claude Code
 | Trong lúc code | security-guidance + luật hookify chạy nền |
 | Commit từng bước | `/commit` |
 | Test giao diện | webapp-testing |
-| Test toàn diện trước PR | Plugin kiểm thử riêng của bạn (xem [Dùng Claude để test web app và mobile app](claude-test-web-mobile.md)) |
+| Test toàn diện trước PR | Plugin kiểm thử riêng của bạn (cách dựng: [ví dụ plugin `kiem-thu`](claude-skill-plugin.md#73-plugin-kiểm-thử-nhiều-agent-kiem-thu); nội dung cần test: [Dùng Claude để test web app và mobile app](claude-test-web-mobile.md)) |
 | Làm gọn code | code-simplifier |
 | Mở PR | `/commit-push-pr` |
 | Review | `/code-review` hoặc `/pr-review-toolkit:review-pr` |

@@ -389,7 +389,7 @@ Marketplace này có sẵn, cài thẳng: `/plugin install <tên>@claude-plugins
 | --- | --- | --- |
 | **commit-commands** | Lệnh commit, push, tạo PR | Plugin đầu tiên nên thử, dùng hằng ngày |
 | **feature-dev** | Quy trình làm tính năng nhiều giai đoạn, có agent khám phá codebase, thiết kế kiến trúc, review | Tính năng vừa và lớn |
-| **code-review** | Review PR bằng nhiều agent song song, có điểm tin cậy để lọc nhiễu | Trước khi merge |
+| **code-review** | Review PR bằng nhiều agent song song, có điểm tin cậy để lọc nhiễu | Trước khi merge. Claude Code bản mới đã có sẵn `/code-review`, `/simplify`: gõ `/` kiểm trước khi cài |
 | **pr-review-toolkit** | Bộ agent review theo từng mảng: test, xử lý lỗi, comment, thiết kế type, đơn giản hóa code | Team review PR thật sự |
 | **security-guidance** | Cảnh báo mẫu code nguy hiểm khi sửa file, review diff khi xong | Bật luôn, đặc biệt khi Claude viết nhiều code |
 | **frontend-design** | Phiên bản plugin của skill frontend-design | Mọi việc có UI |

@@ -9,7 +9,7 @@ Cập nhật: 2026-11-12
 | 1 | Kiểm chứng ý tưởng | Chat + Research | `IDEA_BRIEF.md` |
 | 2 | Đặc tả sản phẩm | Chat trong Project | `PRD.md`, scope MVP |
 | 3 | Kiến trúc | Chat trong Project | `ARCHITECTURE.md`, schema, `openapi.yaml` |
-| 4 | Thiết kế UI/UX | Artifacts: Design | Mockup, design system |
+| 4 | Thiết kế UI/UX | Claude Design | Mockup, design system |
 | 5 | Lập kế hoạch | Chat hoặc Sheets | `ROADMAP.md` |
 | 6 | Build | Claude Code | Repo chạy được |
 | 7 | Test và review | Claude Code + Chrome | Test pass, review xong |
@@ -39,7 +39,8 @@ Giai đoạn 6 chiếm nhiều thời gian nhất. Sau khi phát hành, giai đo
 | Chat + Web search / Research | Brainstorm, phản biện, nghiên cứu thị trường | Idea Brief |
 | Projects | Lưu context chung: PRD, kiến trúc, quyết định, custom instructions | “Bộ não” của dự án |
 | Artifacts: Docs, Sheets, Slides | Viết tài liệu, backlog, pitch | PRD, backlog, deck |
-| Artifacts: Design / Whiteboard | Wireframe, mockup, user flow, sơ đồ kiến trúc | Mockup màn hình chính |
+| Claude Design | Wireframe, mockup, prototype bấm thử, design system | Mockup màn hình chính |
+| Mermaid trong chat | User flow, ERD, sơ đồ kiến trúc dạng văn bản, lưu được vào repo | Sơ đồ trong `docs/` |
 | Claude Code | Viết code, refactor, chạy test, git, chạy lệnh | Repo chạy được |
 | Claude in Chrome | Test UI web, thao tác trên console của store, đọc dashboard | Báo cáo bug, checklist release |
 | Scheduled tasks | Việc lặp lại theo lịch | Báo cáo review hằng tuần |
@@ -75,25 +76,29 @@ Mục tiêu: trả lời “có nên làm không?” **trước khi viết dòng
 3. **Tìm “khe hở”.** Đối thủ bị chê điểm gì mà bạn làm tốt hơn được?
 4. **Chốt Go hoặc No-go.** Nếu không tìm được bằng chứng là có người cần, dừng lại hoặc đổi hướng.
 
+Prompt đầy đủ của giai đoạn này (làm rõ ý tưởng, chọn chỉ số…) ở [prompts/y-tuong-va-prd.md](../prompts/y-tuong-va-prd.md).
+
 **Prompt mẫu: phản biện**
 
 ```text
-Ý tưởng: <mô tả 1–2 câu>. Người dùng mục tiêu: <ai>. Thị trường: Việt Nam.
-Hãy đóng vai nhà đầu tư khó tính:
-1. 5 lý do ý tưởng này có thể thất bại.
-2. Giả định nào rủi ro nhất, và cách kiểm tra nó trong 1 tuần mà không cần code.
-3. Ai đang trả tiền để giải quyết vấn đề này hôm nay?
-Không khen, chỉ phản biện.
+Đóng vai nhà đầu tư khó tính. Đọc brief sau và chỉ ra:
+- 5 lý do ý tưởng này sẽ thất bại, xếp theo mức nguy hiểm
+- giả định nào mình đang coi là đúng mà chưa có bằng chứng, và cách kiểm tra nó trong 1 tuần không cần code
+- ai đang trả tiền để giải quyết vấn đề này hôm nay
+- nếu chỉ được làm 1 tính năng, đó là gì
+Không khen. Brief: <dán>
 ```
 
 **Prompt mẫu: nghiên cứu thị trường (bật Research)**
 
 ```text
-Nghiên cứu thị trường cho ý tưởng: <...>.
-- Liệt kê 5–10 đối thủ (app/web) đang hoạt động: tên, nền tảng, lượt tải hoặc traffic, mô hình giá.
-- Tóm tắt các phàn nàn lặp lại trong review 1–2 sao.
-- Có tín hiệu nhu cầu nào không (nhóm Facebook, Reddit, lượng tìm kiếm)?
-Bắt buộc có link nguồn cho mỗi số liệu. Cuối cùng: kết luận Go/No-go và 3 lý do.
+Tìm trên web các sản phẩm đang giải quyết vấn đề: <vấn đề>, ưu tiên thị trường <Việt Nam / quốc tế>.
+Với 5–10 sản phẩm nổi bật: nền tảng, lượt tải hoặc traffic, làm tốt gì, user phàn nàn gì
+(review 1–2 sao trên App Store / Google Play, diễn đàn), giá, mô hình kiếm tiền.
+Có tín hiệu nhu cầu nào không (nhóm Facebook, Reddit, lượng tìm kiếm)?
+Kết luận: khoảng trống còn lại, 3 rủi ro lớn nhất khiến ý tưởng này thất bại,
+3 cách kiểm chứng rẻ nhất trong 2 tuần, Go / No-go kèm 3 lý do.
+Ghi nguồn cho từng nhận định. Không có nguồn thì ghi rõ là suy đoán.
 ```
 
 **Prompt mẫu: chốt Idea Brief**
@@ -109,37 +114,42 @@ Tổng hợp thành IDEA_BRIEF.md (tối đa 1 trang): vấn đề, người dù
 
 PRD là “hợp đồng” giữa bạn và Claude: mọi giai đoạn sau đều tham chiếu nó. Giai đoạn này dùng Chat trong Project và ra `PRD.md` (lưu vào Project).
 
-Một PRD gọn gồm:
+PRD theo mẫu [templates/PRD.md](../templates/PRD.md), gọn trong 1 trang:
 
-- **Mục tiêu** và 1–2 chỉ số thành công, ví dụ 100 user hoạt động tuần sau 1 tháng.
-- **Persona:** 1–2 người dùng chính.
-- **User stories** kèm acceptance criteria.
-- **MVP scope** theo MoSCoW (Must, Should, Could, Won’t).
-- **Non-functional:** đa ngôn ngữ, offline, bảo mật, số user dự kiến.
-- **Out of scope:** những gì chưa làm.
+- **Bối cảnh, mục tiêu** và 1–2 chỉ số thành công, ví dụ 100 user hoạt động tuần sau 1 tháng.
+- **Persona** (1–2) và **user journey chính** (5–7 bước).
+- **Tính năng** xếp theo MoSCoW (Must, Should, Could, Won’t) và **ngoài phạm vi**.
+- **Giả định cần kiểm chứng.**
+- **Ràng buộc và yêu cầu phi chức năng:** nền tảng, offline, bảo mật, số user dự kiến.
+- **Câu hỏi mở.**
+
+User story và acceptance criteria viết riêng theo [templates/user-story.md](../templates/user-story.md), lưu ở `docs/features/`, để PRD không phình to (prompt ở [prompts/phan-tich-nghiep-vu.md](../prompts/phan-tich-nghiep-vu.md)).
 
 **Prompt mẫu: để Claude phỏng vấn bạn**
 
 ```text
 Dựa trên IDEA_BRIEF.md trong Project, hãy phỏng vấn tôi để viết PRD.
 Hỏi từng nhóm 3–5 câu: người dùng, tính năng, dữ liệu, nền tảng, kiếm tiền.
-Khi đủ thông tin, viết PRD.md theo cấu trúc: Mục tiêu, Persona, User stories
-(kèm acceptance criteria dạng Given/When/Then), MVP (MoSCoW), Non-functional, Out of scope.
+Khi đủ thông tin, viết PRD.md theo mẫu templates/PRD.md (9 mục). Không viết user story,
+không viết giải pháp kỹ thuật. Giả định nào bạn tự thêm thì đánh dấu [GIẢ ĐỊNH].
 ```
 
 **Prompt mẫu: cắt scope**
 
 ```text
-Đây là danh sách tính năng tôi muốn: <...>.
-Tôi code một mình, muốn ra MVP trong 4 tuần. Hãy cắt còn tối đa 5 tính năng Must
-đủ để kiểm chứng giả định rủi ro nhất trong IDEA_BRIEF. Giải thích vì sao bỏ từng cái.
+Xếp các tính năng trong PRD theo MoSCoW (MUST / SHOULD / COULD / WON'T) cho MVP
+làm trong <4> tuần với <1> người. MUST = thiếu nó thì user không hoàn thành được journey chính.
+Bảng: tính năng | nhóm | lý do | ước lượng S/M/L.
+Phản biện mình nếu MUST chiếm > 40% tổng số.
 ```
+
+Với 1 người làm trong 4 tuần, MUST thường chỉ còn 3–5 tính năng: đủ để đi hết journey chính và kiểm chứng giả định rủi ro nhất trong IDEA_BRIEF.
 
 **Mẹo:** mở một chat mới, dán PRD vào và hỏi “Tìm 10 chỗ mơ hồ hoặc mâu thuẫn trong PRD này”. Một phiên mới không bị thiên vị bởi cuộc trò chuyện trước đó.
 
 ## 3. Kiến trúc: chọn theo quy mô, không theo trend
 
-Nguyên tắc: **bắt đầu bằng modular monolith**, chỉ tách thêm khi có số liệu chứng minh là cần. Giai đoạn này ra `ARCHITECTURE.md`, schema/migration, `openapi.yaml` và các ADR (Architecture Decision Record).
+Nguyên tắc: **bắt đầu bằng một monolith chia module rõ** (modular monolith), chỉ tách thêm khi có số liệu chứng minh là cần. MVP ít logic phía server thì BaaS (Supabase, Firebase) còn nhanh hơn nữa. Cách chọn chi tiết theo từng yếu tố: [Chọn kiến trúc phần mềm phù hợp](chon-kien-truc-phan-mem.md#7-cây-quyết-định). Giai đoạn này ra `ARCHITECTURE.md`, schema/migration, `openapi.yaml` và các ADR (Architecture Decision Record).
 
 ### Kiến trúc theo quy mô
 
@@ -147,7 +157,7 @@ Các mốc user và dung lượng dưới đây chỉ là ước lượng để 
 
 | Quy mô | Dấu hiệu | Kiến trúc | Stack ví dụ |
 | --- | --- | --- | --- |
-| Nhỏ (MVP) | Dưới ~10k user, dữ liệu dưới ~10 GB, 1 dev | Modular monolith, 1 API, 1 DB | Flutter + Go/FastAPI + PostgreSQL, Docker Compose trên 1 VPS |
+| Nhỏ (MVP) | Dưới ~10k user, dữ liệu dưới ~10 GB, 1 dev | Monolith chia module (1 API, 1 DB), hoặc BaaS nếu ít logic phía server | Flutter + Go/FastAPI + PostgreSQL, Docker Compose trên 1 VPS; hoặc Flutter + Supabase |
 | Vừa | ~10k–500k user, hàng chục tới hàng trăm GB, có job nặng | Monolith + cache + queue + worker, read replica, object storage | Thêm Redis, worker (Asynq / Celery), S3/R2, CDN, PgBouncer |
 | Lớn | Hơn ~500k user, dữ liệu cỡ TB, nhiều team | Tách service theo domain, event-driven, tách OLTP và OLAP | Kafka/NATS, partitioning/sharding, ClickHouse/BigQuery, Kubernetes |
 
@@ -213,7 +223,7 @@ API contract này là nguồn sự thật duy nhất cho cả Flutter client và
 
 ## 4. Thiết kế UI/UX
 
-Hãy dựng mockup **trước** khi code UI. Sửa trên mockup mất vài phút, còn sửa trên Flutter có thể mất vài giờ. Giai đoạn này dùng Chat với Artifacts (Design để làm mockup, Whiteboard để vẽ user flow) và ra các thứ sau: user flow, mockup các màn hình chính, `DESIGN_SYSTEM.md` gồm color, typography, spacing và component.
+Hãy dựng mockup **trước** khi code UI. Sửa trên mockup mất vài phút, còn sửa trên Flutter có thể mất vài giờ. Giai đoạn này dùng Claude Design để làm mockup và prototype, Chat (Mermaid) để vẽ user flow, và ra các thứ sau: user flow, mockup các màn hình chính, `DESIGN_SYSTEM.md` gồm color, typography, spacing và component.
 
 1. **User flow:** vẽ luồng từ lúc mở app đến khi hoàn thành việc chính, và đếm số bước.
 2. **Design system:** chốt màu, font, spacing và component cơ bản trước.
@@ -242,6 +252,8 @@ Dùng dữ liệu mẫu tiếng Việt thật (tên, số tiền VNĐ), có tr�
 Tạo lib/core/theme/ (ThemeData light và dark) cùng các widget dùng chung trong lib/core/widgets/.
 Không hard-code màu hay size trong các màn hình.
 ```
+
+Quy trình chi tiết (wireframe → prototype → test với 5 user → tài liệu bàn giao): [Dùng Claude làm prototype cho Designer, BA, PM](claude-lam-prototype.md).
 
 **Mẹo:** chụp màn hình app đối thủ mà bạn thích rồi gửi cho Claude, hỏi “phân tích điểm tốt và điểm dở” để lấy ý tưởng. Đừng nhờ sao chép nguyên giao diện.
 
@@ -299,6 +311,7 @@ my-app/
 | Hooks | Tự động và chắc chắn chạy mỗi lần | Chạy `dart format`, `gofmt` hoặc `ruff` sau khi sửa file |
 | MCP | Kết nối công cụ bên ngoài | Postgres (đọc schema), GitHub, trình duyệt |
 | Plugins | Đóng gói skills, agents, hooks và MCP để dùng lại | Bộ công cụ chung cho mọi dự án của bạn |
+| `settings.json` (permissions) | Cho phép / chặn cứng tool và lệnh | Chặn đọc `.env`, chặn `git push` (mẫu: [templates/settings.json](../templates/settings.json)) |
 
 Quy tắc dễ nhớ: những gì **bắt buộc** phải xảy ra mỗi lần thì dùng hook. Những gì chỉ là hướng dẫn thì để ở CLAUDE.md hoặc skill.
 
@@ -317,7 +330,7 @@ Quy tắc dễ nhớ: những gì **bắt buộc** phải xảy ra mỗi lần t
 4. Cho Claude thực thi: viết code kèm test.
 5. Chạy test, lint, build. Nếu lỗi, đưa lỗi cho Claude sửa và lặp lại.
 6. Review: đọc diff và gọi subagent `code-reviewer`.
-7. Commit, đánh dấu task xong trong ROADMAP.
+7. Bạn commit (hoặc cho phép Claude commit sau khi đã duyệt diff), đánh dấu task xong trong ROADMAP.
 
 **Prompt mẫu: feature (trong plan mode)**
 
@@ -365,7 +378,7 @@ Claude viết test rất nhanh, nhưng **bạn phải chỉ rõ test cái gì**.
 **Prompt mẫu: viết test**
 
 ```text
-Viết test cho ExpenseService dựa trên acceptance criteria của US-03 trong PRD.md.
+Viết test cho ExpenseService dựa trên acceptance criteria của US-03 trong docs/features/them-giao-dich.md.
 Bao gồm: happy path, input sai, không có quyền, dữ liệu trống, giá trị biên.
 Không mock database, dùng Testcontainers. Không sửa code đang có chỉ để test pass.
 ```
@@ -441,19 +454,22 @@ Mẫu trống để điền: [templates/CLAUDE.md](../templates/CLAUDE.md). Dư�
 - Test app: cd app && flutter test
 - Migration: make migrate-up
 
-## Convention
+## Quy ước
 - Flutter: feature-first (lib/features/<feature>/{data,domain,presentation})
 - Server: handler -> service -> repository, không gọi DB trong handler
 - API theo docs/openapi.yaml. Đổi API thì cập nhật spec trước
 - Offline-first: UI đọc từ local DB, repository sync với API khi có mạng
 - DI: RepositoryProvider/BlocProvider, không dùng get_it
-- Mỗi feature phải có test
+- Mỗi feature xét đủ 5 nhóm test; integration test dùng PostgreSQL thật qua Testcontainers
 
-## Cấm
-- Không commit secret hoặc .env
+## Không được làm
+- Không tự commit / push; làm xong báo file đã đổi, chờ duyệt
+- Không đọc / sửa .env*, không commit secret
 - Không sửa migration đã chạy, chỉ tạo migration mới
 - Không thêm dependency mới khi chưa hỏi
 ```
+
+Các điều cấm quan trọng (đọc `.env`, push, xóa hàng loạt) nên chặn cứng thêm bằng `.claude/settings.json`, vì CLAUDE.md chỉ là lời dặn. Mẫu: [templates/settings.json](../templates/settings.json).
 
 ### B. Checklist từ ý tưởng đến phát hành
 

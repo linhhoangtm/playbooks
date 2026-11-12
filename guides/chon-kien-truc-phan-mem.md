@@ -161,7 +161,8 @@ Báo cáo [DORA 2025](https://dora.dev/research/ai) của Google, khảo sát g�
     - [`AGENTS.md`](https://agents.md) là định dạng mở dùng chung cho nhiều công cụ (Copilot, Codex, Cursor, Gemini…).
     - Copilot đọc `.github/copilot-instructions.md` và `AGENTS.md`.
     - Claude Code đọc `CLAUDE.md`; các bản gần đây có thể đọc `AGENTS.md` khi repo không có `CLAUDE.md` (kiểm tra changelog của bản bạn dùng).
-    - Cách gọn nhất: viết nội dung chung trong `AGENTS.md`. `CLAUDE.md` chỉ cần dòng `@AGENTS.md` để import, cộng với phần riêng cho Claude nếu có.
+    - Team chỉ dùng Claude Code: một file `CLAUDE.md` là đủ (mẫu: [templates/CLAUDE.md](../templates/CLAUDE.md)).
+    - Team dùng nhiều công cụ AI: viết nội dung chung trong `AGENTS.md`; `CLAUDE.md` chỉ cần dòng `@AGENTS.md` để import, cộng với phần riêng cho Claude nếu có. Các guide khác trong repo này gọi chung là `CLAUDE.md`.
 
 **Claude Code và Copilot: có khác gì cho kiến trúc?**
 
@@ -242,7 +243,7 @@ Các lựa chọn dưới đây không loại trừ nhau. Một hệ thống th�
 
 | Tình huống | Yếu tố nổi bật | Kiến trúc đề xuất |
 | --- | --- | --- |
-| App quản lý chi tiêu cá nhân, 1 dev, MVP 4 tuần | Domain đơn giản, ngân sách thấp, user hay mất mạng | Flutter offline-first (drift) + 1 API monolith (Go hoặc FastAPI) + PostgreSQL, Docker Compose trên 1 VPS. Layered trong backend |
+| App quản lý chi tiêu cá nhân, 1 dev, MVP 4 tuần | Domain đơn giản, ngân sách thấp, user hay mất mạng | Flutter offline-first (drift) + 1 API monolith (Go hoặc FastAPI) + PostgreSQL, Docker Compose trên 1 VPS. Backend chia module theo tính năng (`internal/expense`, `internal/user`), bên trong mỗi module là layered handler → service → repository. Đây là ví dụ xuyên suốt trong [Dùng Claude xây dựng sản phẩm từ ý tưởng](claude-tu-y-tuong-den-san-pham.md) |
 | App bán hàng cho chuỗi 50 cửa hàng, team 4 người | Trừ tồn kho cần ACID, có báo cáo nặng, nối hóa đơn điện tử | Modular monolith Go (module: đơn hàng, kho, khách hàng, báo cáo), Redis + worker cho báo cáo, read replica, adapter riêng cho hóa đơn điện tử. POS Flutter offline-first |
 | Nền tảng có tính năng AI (tóm tắt, gợi ý), team 6 người | Phần AI tốn tài nguyên và chậm, phần còn lại là CRUD | Core API Go (modular monolith) + 1 service AI riêng bằng FastAPI, giao tiếp qua queue. `pgvector` cho semantic search |
 | Hệ thống thanh toán cho doanh nghiệp, yêu cầu 99,99% | Tuân thủ bảo mật, audit, ACID, không được mất giao dịch | Clean Architecture, tách riêng vùng xử lý thanh toán, outbox pattern, nhiều instance + failover DB, audit log bất biến |

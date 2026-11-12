@@ -1,5 +1,13 @@
 # Kiểm thử <project> — <dd/mm/yyyy HH:mm> — <nhanh / full / release>
 
+<!--
+Mức kiểm thử:
+- nhanh: chỉ phần code vừa đổi (git diff) — lint, test liên quan, 5 nhóm case cho tính năng mới.
+- full: toàn project, mọi hạng mục trong Checklist trừ Store.
+- release: như full + rà rủi ro App Store / Google Play, chạy trên build release.
+Mã test case dùng TC-01… giống bảng ma trận trong prompts/test.md.
+-->
+
 Nhánh: <branch> · Commit: <sha> · Phạm vi: <n tính năng, m file>
 Kết luận: <✅ Merge được / ❌ Chưa merge — x Fail, y Rủi ro>
 
@@ -32,7 +40,7 @@ Kết quả: `✅ Pass` · `❌ Fail` · `⚠️ Rủi ro` · `⏭️ Chưa ch�
 
 | ID | Nhóm | Test case | Input | Output mong đợi | Output thực tế | Kết quả | Cách sửa |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| CASE-1 | giá trị biên | <...> | <...> | <...> | <...> | ❌ Fail | <file:dòng — ...> |
+| TC-01 | giá trị biên | <...> | <...> | <...> | <...> | ❌ Fail | <file:dòng — ...> |
 
 ## Chi tiết cách sửa
 

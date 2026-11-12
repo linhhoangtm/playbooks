@@ -54,6 +54,34 @@ text tiếng Việt dài bị cắt, cỡ chữ phóng to 200%, màn nhỏ 360×
 Bảng: màn | vấn đề | mức (cao / vừa / thấp) | cách sửa. Nếu là file UI sửa được thì sửa luôn mục mức cao.
 ```
 
+## Chọn giả định cần test bằng prototype
+
+```
+Từ mục "Giả định" trong PRD, chọn 3 giả định rủi ro nhất có thể kiểm bằng prototype.
+Với mỗi cái: màn/flow cần làm, nhiệm vụ giao cho user khi test, dấu hiệu đạt / không đạt.
+Màn nào không phục vụ 3 giả định này thì đừng làm trong prototype.
+```
+
+## Kịch bản test với user
+
+```
+Viết kịch bản usability test 20 phút cho prototype (3 giả định trong Project):
+- 2 câu khởi động về thói quen hiện tại của họ
+- 3 nhiệm vụ viết theo tình huống thật, KHÔNG chứa tên nút/menu (vd "Tháng sau là giỗ ông nội, bác muốn được nhắc trước")
+- mỗi nhiệm vụ: dấu hiệu thành công, thời gian tối đa, câu hỏi sau nhiệm vụ
+- 3 câu kết thúc, không hỏi "bác có thích không"
+- lời dặn cho người dẫn: không gợi ý, không giải thích, hỏi "bác đang nghĩ gì?"
+```
+
+## Tổng hợp sau test với user
+
+```
+Đây là ghi chép 5 phiên test (đã bỏ tên thật): <dán ghi chép hoặc transcript>.
+Gom thành bảng: vấn đề | màn | số người gặp (x/5) | mức (chặn / khó chịu / nhỏ) | trích dẫn ngắn | đề xuất sửa.
+Sắp xếp theo mức rồi số người. Chỉ đưa vào điều thấy trong ghi chép, không suy diễn.
+Kết luận từng giả định: đúng / sai / chưa rõ.
+```
+
 ## Từ ảnh chụp ra code
 
 ```

@@ -45,7 +45,7 @@ Hai kỹ thuật kinh điển giúp chọn test case ít mà đủ: **phân vùn
 | Backend Go | Unit, API, DB thật | `testing`, `testify`, `httptest`, Testcontainers (PostgreSQL thật trong Docker) |
 | Backend FastAPI | Unit, API, DB thật | `pytest`, `TestClient`/`httpx`, Testcontainers |
 
-**Thêm phần Testing vào `AGENTS.md` / `CLAUDE.md`** để mọi phiên Claude test cùng một kiểu:
+**Thêm phần Testing vào `CLAUDE.md`** (hoặc `AGENTS.md` nếu team dùng nhiều công cụ AI) để mọi phiên Claude test cùng một kiểu. [templates/CLAUDE.md](../templates/CLAUDE.md) đã có sẵn các dòng này trong mục Quy ước:
 
 ```markdown
 ## Testing
@@ -71,18 +71,22 @@ Hai kỹ thuật kinh điển giúp chọn test case ít mà đủ: **phân vùn
 **Prompt mẫu: lập ma trận test case**
 
 ```text
-Đọc <lib/features/auth/login_screen.dart> và API nó gọi <src/app/api/v1/account/...>.
-Lập ma trận test case theo 5 nhóm: happy path, input sai, không có quyền, dữ liệu trống, giá trị biên.
-Mỗi ca: ID, mô tả, dữ liệu vào, kết quả mong đợi, tầng test (unit / widget / API / E2E), đã có test chưa.
-Đánh dấu ca nào bạn không chắc kết quả mong đợi để tôi xác nhận. Chưa viết code.
+Đọc tính năng <đăng nhập> (code ở <lib/features/auth/login_screen.dart> và API <src/app/api/v1/account/...>, spec ở <đường dẫn hoặc dán>).
+1. Viết acceptance criteria dạng Given / When / Then, tối đa 10 dòng (spec đã có thì dùng luôn).
+2. Lập bảng test case: criteria × 5 nhóm (happy path, input sai, không có quyền, dữ liệu trống, giá trị biên).
+   Cột: ID (TC-01…), nhóm, test case, input, output mong đợi, loại test (unit / widget / API / E2E),
+   đã có test chưa (grep thư mục test).
+3. Đánh dấu ca nào bạn không chắc output mong đợi để mình xác nhận.
+Chưa viết code. Chờ mình duyệt bảng.
 ```
 
 **Prompt mẫu: viết và chạy test sau khi đã duyệt ma trận**
 
 ```text
-Viết test cho các ca <TK-01..TK-12> trong ma trận đã duyệt, theo quy ước test trong CLAUDE.md.
-Dùng fake server / fixture có sẵn trong repo, không thêm thư viện mới.
-Chạy test. Ca nào fail: cho biết lỗi nằm ở code hay ở test, KHÔNG tự sửa code để pass.
+Viết test cho các ca <TC-01..TC-12> chưa có test trong bảng đã duyệt, theo quy ước test trong CLAUDE.md
+(đúng thư viện, dùng fake server / fixture có sẵn, không thêm thư viện mới). Chỉ viết trong thư mục test.
+Chạy test vừa viết và báo kết quả. Ca nào fail: cho biết lỗi nằm ở code, ở test hay yêu cầu chưa rõ.
+Fail vì bug thật → giữ nguyên test, ghi bug, không sửa code để test pass.
 ```
 
 **Prompt mẫu: tìm chỗ thiếu test**
@@ -469,16 +473,7 @@ Mỗi feature cần 3 thứ: **acceptance criteria** viết ra giấy, **E2E flo
 | 3. Test tự động | Unit/widget cho logic, Maestro/Patrol/Playwright cho flow | File test + lệnh chạy |
 | 4. Regression | Gom case đã từng lỗi vào suite chạy trong CI | `scripts/test-regression.mts`, `integration_test/` |
 
-**Prompt mẫu — ma trận test cho 1 feature:**
-
-```
-Đọc tính năng <tên> (code ở <đường dẫn>, spec ở <đường dẫn hoặc dán>).
-1. Viết acceptance criteria dạng Given / When / Then, tối đa 10 dòng.
-2. Lập bảng test case: criteria × 5 nhóm (happy path, input sai, không có quyền, dữ liệu trống, giá trị biên).
-   Cột: ID, nhóm, test case, input, output mong đợi, loại test (unit / widget / E2E).
-3. Đánh dấu case nào đã có test, case nào chưa (grep thư mục test).
-Chưa viết code. Chờ mình duyệt bảng.
-```
+Bước 1–3 dùng hai prompt ở [mục 3](#3-quy-trình-từ-yêu-cầu-đến-test-chạy-được). Kết quả ghi theo mẫu [templates/bao-cao-test.md](../templates/bao-cao-test.md); trước khi release rà thêm [templates/checklist-release.md](../templates/checklist-release.md).
 
 **Ví dụ App A — Hỏi AI (Flutter):** criteria tối thiểu: chưa đồng ý chia sẻ dữ liệu thì không gọi API AI; từ chối vẫn dùng được phần còn lại của app; rút lại đồng ý được trong cài đặt. Test bằng widget test trên màn đồng ý + mock HTTP client đếm số lần gọi.
 
@@ -573,7 +568,7 @@ Dựa vào source, không bịa tính năng.
 - [Patrol](https://patrol.leancode.co/)
 - [Playwright — visual comparisons](https://playwright.dev/docs/test-snapshots)
 - [React Native Testing Library](https://callstack.github.io/react-native-testing-library/)
-- [Maestro](https://maestro.mobile.dev/)
+- [Maestro](https://maestro.dev)
 - [Grafana k6](https://grafana.com/docs/k6/latest/)
 - [Claude Code — security review](https://github.com/anthropics/claude-code-security-review)
 - [Apple App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)

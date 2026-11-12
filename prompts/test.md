@@ -6,19 +6,21 @@ Chi tiết và ví dụ: [Dùng Claude để test web app và mobile app](../gui
 
 ```
 Đọc tính năng <tên> (code ở <đường dẫn>, spec ở <đường dẫn hoặc dán>).
-1. Viết acceptance criteria dạng Given / When / Then, tối đa 10 dòng.
+1. Viết acceptance criteria dạng Given / When / Then, tối đa 10 dòng (spec đã có thì dùng luôn).
 2. Lập bảng test case: criteria × 5 nhóm (happy path, input sai, không có quyền, dữ liệu trống, giá trị biên).
-   Cột: ID, nhóm, test case, input, output mong đợi, loại test (unit / widget / E2E).
-3. Đánh dấu case nào đã có test, case nào chưa (grep thư mục test).
+   Cột: ID (TC-01…), nhóm, test case, input, output mong đợi, loại test (unit / widget / API / E2E),
+   đã có test chưa (grep thư mục test).
+3. Đánh dấu ca nào bạn không chắc output mong đợi để mình xác nhận.
 Chưa viết code. Chờ mình duyệt bảng.
 ```
 
 ## Viết test từ bảng đã duyệt
 
 ```
-Viết test cho các case chưa có trong bảng, dùng đúng thư viện test của repo (đọc CLAUDE.md).
-Chỉ viết trong thư mục test. Chạy test vừa viết và báo kết quả.
-Test fail vì bug thật → giữ nguyên, ghi bug, không sửa code để test pass.
+Viết test cho các ca <TC-01..TC-12> chưa có test trong bảng đã duyệt, theo quy ước test trong CLAUDE.md
+(đúng thư viện, dùng fake server / fixture có sẵn, không thêm thư viện mới). Chỉ viết trong thư mục test.
+Chạy test vừa viết và báo kết quả. Ca nào fail: cho biết lỗi nằm ở code, ở test hay yêu cầu chưa rõ.
+Fail vì bug thật → giữ nguyên test, ghi bug, không sửa code để test pass.
 ```
 
 ## Kiểm quyền / IDOR

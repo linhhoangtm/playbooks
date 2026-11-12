@@ -84,38 +84,45 @@ Mẹo xuyên suốt: tạo **1 Claude Project cho mỗi dự án**, đưa brief,
 ### 4.1 Từ ý tưởng mơ hồ → brief
 
 ```
-Mình là PM. Ý tưởng: <mô tả 1–3 câu, có thể lộn xộn>.
-Trước khi viết gì, hỏi mình tối đa 5 câu để làm rõ: ai dùng, họ đang giải quyết
-việc này thế nào, vì sao cách cũ chưa ổn, đo thành công bằng gì, ràng buộc (thời gian, ngân sách, nền tảng).
+Mình có ý tưởng: <mô tả 1–3 câu>.
+Trước khi viết gì, hỏi mình tối đa 5 câu để làm rõ: ai dùng, họ đang giải quyết việc này thế nào,
+vì sao cách cũ chưa ổn, đo thành công bằng gì, ràng buộc (thời gian, ngân sách, nền tảng, số người làm).
 Sau khi mình trả lời, viết brief ≤ 150 chữ: Vấn đề · Người dùng · Giải pháp đề xuất · Chỉ số thành công · Ngoài phạm vi.
 ```
 
 ### 4.2 Kiểm chứng trước khi làm
 
+Bật Web search hoặc Research trước khi gửi.
+
 ```
-Với brief trên, tìm trên web: 5 sản phẩm đang giải quyết cùng vấn đề (ưu tiên thị trường Việt Nam),
-họ làm tốt gì, user phàn nàn gì (review store, diễn đàn), giá bao nhiêu.
-Kết luận: khoảng trống còn lại là gì, và 3 rủi ro lớn nhất khiến ý tưởng này thất bại.
-Ghi nguồn cho từng nhận định. Không có nguồn thì nói rõ là đoán.
+Tìm trên web các sản phẩm đang giải quyết vấn đề: <vấn đề>, ưu tiên thị trường <Việt Nam / quốc tế>.
+Với 5–10 sản phẩm nổi bật: nền tảng, lượt tải hoặc traffic, làm tốt gì, user phàn nàn gì
+(review 1–2 sao trên App Store / Google Play, diễn đàn), giá, mô hình kiếm tiền.
+Có tín hiệu nhu cầu nào không (nhóm Facebook, Reddit, lượng tìm kiếm)?
+Kết luận: khoảng trống còn lại, 3 rủi ro lớn nhất khiến ý tưởng này thất bại,
+3 cách kiểm chứng rẻ nhất trong 2 tuần, Go / No-go kèm 3 lý do.
+Ghi nguồn cho từng nhận định. Không có nguồn thì ghi rõ là suy đoán.
 ```
 
 ### 4.3 PRD 1 trang
 
 ```
-Viết PRD 1 trang từ brief và kết quả kiểm chứng:
+Viết PRD 1 trang từ brief và kết quả kiểm chứng (dán bên dưới):
 1. Bối cảnh & vấn đề  2. Mục tiêu + chỉ số (có số cụ thể)  3. Persona (1–2)
 4. User journey chính (5–7 bước)  5. Tính năng  6. Ngoài phạm vi
-7. Giả định cần kiểm bằng prototype  8. Ràng buộc (thời gian, ngân sách, nền tảng)  9. Câu hỏi mở
-Không viết giải pháp kỹ thuật. Giả định nào bạn tự thêm thì đánh dấu [GIẢ ĐỊNH].
+7. Giả định cần kiểm chứng  8. Ràng buộc và yêu cầu phi chức năng (thời gian, ngân sách, nền tảng,
+offline, bảo mật, số user dự kiến)  9. Câu hỏi mở
+Không viết user story (làm riêng ở bước BA), không viết giải pháp kỹ thuật. Giả định nào bạn tự thêm thì đánh dấu [GIẢ ĐỊNH].
+Theo mẫu templates/PRD.md nếu mình đính kèm.
 ```
 
 ### 4.4 Cắt phạm vi MVP
 
 ```
-Xếp các tính năng trong PRD theo MoSCoW (MUST / SHOULD / COULD / WON'T) cho bản MVP
-làm trong <số> tuần với <số> dev. Tiêu chí MUST: thiếu nó thì user không hoàn thành được journey chính.
+Xếp các tính năng trong PRD theo MoSCoW (MUST / SHOULD / COULD / WON'T) cho MVP
+làm trong <số> tuần với <số> người. MUST = thiếu nó thì user không hoàn thành được journey chính.
 Bảng: tính năng | nhóm | lý do | ước lượng S/M/L.
-Phản biện mình nếu MUST quá nhiều (> 40% tổng).
+Phản biện mình nếu MUST chiếm > 40% tổng số.
 ```
 
 ### 4.5 Chọn câu hỏi cho prototype
@@ -131,16 +138,17 @@ Màn nào không phục vụ 3 giả định này thì đừng làm trong protot
 ### 5.1 User story + acceptance criteria
 
 ```
-Từ PRD (đã có trong Project), viết user story cho các tính năng MUST.
+Từ PRD (đính kèm / đã có trong Project), viết user story cho các tính năng MUST.
 Mỗi story: "Là <vai>, tôi muốn <việc>, để <lợi ích>" + acceptance criteria dạng Given / When / Then.
 Mỗi story xét đủ 5 nhóm criteria: happy path, input sai, không có quyền, dữ liệu trống, giá trị biên;
-nhóm nào không áp dụng thì ghi N/A kèm lý do. Story nào > 10 criteria thì tách nhỏ. Đánh số US-01, US-02… để các bước sau tham chiếu.
+nhóm nào không áp dụng thì ghi N/A kèm lý do. Story > 10 criteria thì tách nhỏ. Đánh số US-01, US-02…
+Theo mẫu templates/user-story.md.
 ```
 
 ### 5.2 User flow
 
 ```
-Vẽ user flow cho journey chính bằng Mermaid flowchart:
+Vẽ user flow cho <journey> bằng Mermaid flowchart:
 màn hình = hình chữ nhật, quyết định = hình thoi, hành động hệ thống = hình tròn.
 Gồm nhánh lỗi (mất mạng, hết phiên, dữ liệu rỗng, không có quyền) và đường quay lại.
 Sau sơ đồ: danh sách màn hình (ID S-01…, tên, mục đích, story liên quan).
@@ -157,11 +165,11 @@ Quy tắc nào bạn suy ra chứ không có trong PRD → ghi "cần PM xác nh
 ### 5.4 Dữ liệu mẫu
 
 ```
-Tạo dữ liệu mẫu cho prototype dạng JSON, tiếng Việt, giống thật:
-- 3 user với vai khác nhau, tên Việt có dấu (có 1 tên rất dài)
-- đủ trường hợp: list rỗng, list 1 phần tử, list 50 phần tử, giá trị biên, ngày quá khứ/tương lai
-- số tiền VND (số nguyên), ngày trong JSON dạng ISO 8601 (hiển thị dd/mm/yyyy), số điện thoại +84 giả
-Không dùng dữ liệu thật của người nào. Kèm bảng: bộ dữ liệu nào dùng cho màn nào, trạng thái nào.
+Tạo dữ liệu mẫu dạng JSON, tiếng Việt, giống thật, cho <tính năng>:
+- 3 user khác vai, tên Việt có dấu (có 1 tên rất dài)
+- đủ ca: list rỗng, 1 phần tử, 50 phần tử, giá trị biên, ngày quá khứ / tương lai
+- tiền VND (số nguyên), ngày trong JSON dạng ISO 8601 (hiển thị dd/mm/yyyy), số điện thoại +84 giả
+Không dùng dữ liệu thật của ai. Kèm bảng: bộ dữ liệu nào dùng cho màn / trạng thái / test nào.
 ```
 
 ### 5.5 Rà thiếu sót
@@ -181,45 +189,45 @@ Mỗi mục 1 dòng + đề xuất cách viết lại.
 Làm design system một lần thì mọi màn sau đều đồng bộ. Nếu đã có app/web, đưa link repo hoặc ảnh chụp để Claude Design đọc theo.
 
 ```
-Tạo design system cho <tên sản phẩm> — <mô tả cảm giác: vd trang nhã, truyền thống Việt, dễ đọc cho người lớn tuổi>.
-Gồm: bảng màu (primary, neutral, success/warning/error, cả dark mode), font hỗ trợ tiếng Việt đầy đủ dấu,
+Tạo design system cho <tên sản phẩm> — <cảm giác: vd trang nhã, trẻ trung, dễ đọc cho người lớn tuổi>.
+Gồm: bảng màu (primary, neutral, success / warning / error, cả dark mode), font hỗ trợ tiếng Việt đủ dấu,
 thang cỡ chữ, spacing 4/8, bo góc, component: button, input, card, list item, tab bar, dialog, toast, empty state.
-Contrast đạt WCAG AA, vùng chạm ≥ 44pt (iOS) / 48dp (Android). Theo repo/ảnh đính kèm nếu có.
+Contrast đạt WCAG AA, vùng chạm ≥ 44pt (iOS) / 48dp (Android). Theo repo / ảnh đính kèm nếu có.
 ```
 
 ### 6.2 Wireframe
 
 ```
-Từ danh sách màn S-01…S-xx và user flow (trong Project), vẽ wireframe xám cho mobile 390×844:
-chỉ bố cục, nội dung thật (dùng dữ liệu mẫu), không màu, không ảnh.
-Mỗi màn ghi ID + story liên quan. Cho mình 2 phương án bố cục khác hẳn nhau cho màn quan trọng nhất.
+Từ danh sách màn S-01…S-xx và user flow (đính kèm), vẽ wireframe xám cho <mobile 390×844 / desktop 1440>:
+chỉ bố cục, nội dung thật từ dữ liệu mẫu, không màu, không ảnh.
+Mỗi màn ghi ID + story liên quan. Cho 2 phương án bố cục khác hẳn nhau cho màn <quan trọng nhất>.
 ```
 
 ### 6.3 Mockup nhiều hướng
 
 ```
-Áp design system vào wireframe đã chọn. Làm 3 hướng thị giác khác nhau cho màn S-01
-(vd: tối giản / ấm áp truyền thống / hiện đại nhiều màu). Ghi 1 dòng ưu / nhược mỗi hướng.
-Mình chọn xong mới làm các màn còn lại.
+Áp design system vào wireframe đã chọn. Làm 3 hướng thị giác khác nhau cho màn <S-01>
+(vd: tối giản / ấm áp / hiện đại nhiều màu). Mỗi hướng 1 dòng ưu / nhược.
+Chưa làm các màn khác, chờ mình chọn.
 ```
 
 ### 6.4 Prototype tương tác
 
 ```
-Nối các màn thành prototype bấm được theo user flow. Yêu cầu:
+Nối các màn thành prototype bấm được theo user flow:
 - nhập liệu thật được, có validate và thông báo lỗi theo acceptance criteria
-- mỗi màn có 4 trạng thái: loading, có dữ liệu, rỗng, lỗi — thêm nút nhỏ góc màn để chuyển trạng thái khi demo
-- nút quay lại, hủy, xác nhận hoạt động đúng
+- mỗi màn có 4 trạng thái: loading, có dữ liệu, rỗng, lỗi (có nút nhỏ để chuyển trạng thái khi demo)
+- quay lại, hủy, xác nhận hoạt động đúng
 - dữ liệu lấy từ JSON mẫu, đổi JSON là màn đổi theo
-Không làm tính năng nằm ngoài 3 giả định cần test.
+Chỉ làm các màn phục vụ <giả định cần test>.
 ```
 
 ### 6.5 Tự rà trước khi cho người khác xem
 
 ```
-Rà prototype theo: 10 heuristic của Nielsen, contrast, vùng chạm, text tiếng Việt dài có bị cắt,
-cỡ chữ phóng to 200%, màn nhỏ 360×640, dark mode, thao tác một tay, đủ 4 trạng thái.
-Bảng: màn | vấn đề | mức (cao/vừa/thấp) | cách sửa. Sửa luôn mục mức cao.
+Rà <ảnh chụp / prototype / file UI> theo: 10 heuristic của Nielsen, contrast, vùng chạm,
+text tiếng Việt dài bị cắt, cỡ chữ phóng to 200%, màn nhỏ 360×640, dark mode, thao tác một tay, đủ 4 trạng thái.
+Bảng: màn | vấn đề | mức (cao / vừa / thấp) | cách sửa. Nếu là file UI sửa được thì sửa luôn mục mức cao.
 ```
 
 Mẹo với Claude Design: **đặt giới hạn rõ trong prompt** (số màn, số hướng, kích thước). Prompt mở như "làm app cho tôi" sẽ sinh nhiều màn không cần, tốn token, và khó sửa.
@@ -300,7 +308,8 @@ Mục tiêu: dev đọc xong là **ước lượng và bắt đầu code đượ
 
 | Thành phần | Ai chuẩn bị | Dev dùng để |
 | --- | --- | --- |
-| Tài liệu bàn giao (mẫu ở 9.2) | BA, Claude viết nháp | Hiểu phạm vi, ước lượng |
+| Tài liệu bàn giao (mẫu ở 9.2) | BA, Claude viết nháp | Hiểu phạm vi, ước lượng, viết test |
+| Ảnh chụp mọi màn và trạng thái, đặt tên theo mã màn | Designer | Đối chiếu khi code, Claude Code đọc |
 | Link prototype (Claude Design / Figma) | Designer | Xem giao diện, flow |
 | Handoff bundle Claude Design hoặc link frame Figma | Designer | Claude Code đọc thiết kế |
 | Design system / token | Designer | Dùng đúng màu, font, component |
@@ -310,21 +319,22 @@ Mục tiêu: dev đọc xong là **ước lượng và bắt đầu code đượ
 
 ### 9.2 Mẫu tài liệu bàn giao
 
-Dùng mẫu [templates/ban-giao-dev.md](../templates/ban-giao-dev.md), gồm 11 mục: tóm tắt · phạm vi · link · danh sách màn (đủ 4 trạng thái) · user story + acceptance criteria · quy tắc nghiệp vụ · dữ liệu và API đề xuất · yêu cầu không chức năng · câu hỏi mở · tiêu chí nghiệm thu · lịch sử thay đổi.
+Dùng mẫu [templates/ban-giao-dev.md](../templates/ban-giao-dev.md), gồm 14 mục: tóm tắt · link · thuật ngữ · danh sách màn + user flow · chi tiết từng màn (bố cục, bảng field, trạng thái) · user story + acceptance criteria · quy tắc nghiệp vụ và công thức · validation · dữ liệu và API đề xuất · trường hợp biên · yêu cầu không chức năng · câu hỏi mở · tiêu chí nghiệm thu · lịch sử thay đổi.
+
+Ba điểm làm tài liệu bàn giao khác với PRD:
+
+- **Bảng field cho mọi form:** kiểu, bắt buộc, mặc định, quy tắc hợp lệ, thông báo lỗi. Đây là phần dev và QA hỏi lại nhiều nhất.
+- **Công thức cho mọi con số trên UI** (tổng, badge, phần trăm) và quy tắc phụ thuộc giữa các field.
+- **Mã duy nhất** (S-01, US-01, BR-01, VR-01, Q-01) để tham chiếu thay vì chép lại. Tính năng lớn thì tách thành nhiều file theo hướng dẫn ở đầu mẫu.
 
 ### 9.3 Prompt: Claude viết tài liệu bàn giao
 
-Chạy trong Claude Project của dự án (đã có PRD, story, flow, kết quả test):
+Chạy trong Claude Project của dự án (đã có PRD, story, flow, kết quả test), đính kèm toàn bộ ảnh chụp màn hình các trạng thái. Prompt đầy đủ ở [prompts/ban-giao-va-phat-hanh.md](../prompts/ban-giao-va-phat-hanh.md#viết-tài-liệu-bàn-giao-cho-dev). Điểm chính của prompt:
 
-```
-Tạo tài liệu bàn giao theo mẫu templates/ban-giao-dev.md, dùng: PRD, user story, user flow,
-quy tắc nghiệp vụ, dữ liệu mẫu, báo cáo test user vòng cuối (đính kèm / có trong Project).
-- chỉ ghi điều đã có trong tài liệu; chỗ thiếu đưa vào mục Câu hỏi mở, không tự điền
-- mục API ghi là ĐỀ XUẤT, không chọn công nghệ, không viết code
-- quyết định thiết kế thay đổi sau test user thì ghi lý do 1 dòng
-- tối đa 4 trang, chi tiết dài để phụ lục
-Tạo dưới dạng doc để cả team bình luận.
-```
+1. Claude liệt kê từng ảnh thuộc màn nào, trạng thái nào trước khi viết, để không bỏ sót hay nhầm màn.
+2. Viết đủ 14 mục theo mẫu; chỗ phải suy luận đánh dấu **[GIẢ ĐỊNH]** và đưa vào Câu hỏi mở.
+3. Dữ liệu và API chỉ là đề xuất, dev quyết cuối.
+4. Trả lời câu hỏi mở rồi cho Claude cập nhật ra bản thứ hai. **Đừng gửi dev bản đầu.**
 
 Rồi để Claude tự rà trước khi gửi dev:
 
@@ -395,14 +405,15 @@ thêm câu hỏi mới (người + hạn), ghi quyết định mới vào Lịch
 - [ ] User flow có nhánh lỗi và đường quay lại
 - [ ] Prototype đủ 4 trạng thái cho mỗi màn, dùng dữ liệu mẫu giống thật
 - [ ] Đã test ≥ 1 vòng 5 user, không còn vấn đề mức chặn
-- [ ] Tài liệu bàn giao theo mẫu, đã qua bước "đóng vai dev senior" rà lại
+- [ ] Tài liệu bàn giao theo mẫu: mọi form có bảng field, mọi con số trên UI có công thức, không còn [GIẢ ĐỊNH] chưa xác nhận
+- [ ] Đã qua bước "đóng vai dev senior" rà lại và là bản thứ hai (sau khi trả lời câu hỏi mở)
 - [ ] Câu hỏi mở đều có người trả lời + hạn
 - [ ] Design system / token và handoff bundle (hoặc link Figma) đã gửi
 
 ## Nguồn
 
 - [Introducing Claude Design by Anthropic Labs](https://www.anthropic.com/news/claude-design-anthropic-labs)
-- [Figma connector cho Claude](https://claude.com/connectors/figma-8ef5e4)
+- [Figma connector cho Claude](https://claude.com/connectors/figma) · [Figma MCP server — Figma Help](https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server)
 - [Nielsen Norman Group — Why You Only Need to Test with 5 Users](https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/)
 - [Nielsen Norman Group — 10 Usability Heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/)
 - [WCAG 2.2](https://www.w3.org/TR/WCAG22/)

@@ -38,9 +38,13 @@ Phiên bản: <v0.1> · Ngày: <dd/mm/yyyy> · Người viết: <tên> · Trạn
 | --- | --- | --- |
 | <...> | <prototype / phỏng vấn / số liệu> | <...> |
 
-## 8. Ràng buộc
+## 8. Ràng buộc và yêu cầu phi chức năng
 
 - Thời gian: <...> · Ngân sách: <...> · Nền tảng: <iOS / Android / web> · Tuân thủ: <...>
+- Số user dự kiến năm đầu: <...> · Offline: <cần / không> · Ngôn ngữ: <...>
+- Bảo mật, dữ liệu cá nhân, dữ liệu gửi bên thứ ba (AI, analytics): <...>
+
+<!-- User story + acceptance criteria viết riêng theo templates/user-story.md, không đưa vào PRD. -->
 
 ## 9. Câu hỏi mở
 
