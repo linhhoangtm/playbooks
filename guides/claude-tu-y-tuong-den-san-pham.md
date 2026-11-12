@@ -1,8 +1,8 @@
 # Hướng dẫn dùng Claude xây dựng sản phẩm từ ý tưởng
 
-Cập nhật: 2026-11-12 · Tác giả: Linh Hoang
+Cập nhật: 2026-11-12
 
-Đi từ ý tưởng đến app đã phát hành qua 9 giai đoạn. Mỗi giai đoạn dùng đúng một công cụ của Claude và ra một deliverable cụ thể, rồi deliverable đó làm context cho giai đoạn sau. Ví dụ xuyên suốt: app mobile **Flutter**, backend **Go hoặc FastAPI**, database **PostgreSQL**.
+Đi từ ý tưởng đến app đã phát hành qua 9 giai đoạn. Mỗi giai đoạn dùng công cụ phù hợp của Claude và ra một deliverable cụ thể, rồi deliverable đó làm context cho giai đoạn sau. Ví dụ xuyên suốt: app mobile **Flutter**, backend **Go hoặc FastAPI**, database **PostgreSQL**.
 
 | # | Giai đoạn | Công cụ chính | Deliverable |
 | --- | --- | --- | --- |
@@ -176,15 +176,16 @@ Các mốc user và dung lượng dưới đây chỉ là ước lượng để 
 Tổ chức code theo feature-first, dùng BLoC/Cubit và repository pattern. Một codebase chạy được mobile, web và desktop. Riêng web cần SEO thì nên cân nhắc framework web (ví dụ Next.js) cho phần public.
 
 - **DI:** app nhỏ **không cần get_it**. Dùng `RepositoryProvider` và `BlocProvider` có sẵn trong flutter_bloc, hoặc truyền qua constructor. Chỉ thêm get_it hay injectable khi app lớn, có nhiều module.
-- **Offline-first là mặc định cho mobile:** UI chỉ đọc từ local DB. Repository tự đồng bộ với API khi có mạng.
+- **Offline-first khi người dùng hay mất mạng** (ghi chép, bán hàng, làm việc ngoài hiện trường): UI chỉ đọc từ local DB, repository tự đồng bộ với API khi có mạng. App chủ yếu xem nội dung online thì cache đơn giản là đủ, vì offline-first tốn thêm nhiều công cho đồng bộ và xử lý xung đột.
 - **Đồng bộ an toàn:** mỗi bản ghi có cờ trạng thái sync, xóa bằng soft delete, id sinh ở client (UUID) để không trùng khi sync.
 
 | Nhu cầu lưu local | Chọn |
 | --- | --- |
-| Key-value: settings, token, cache API đơn giản | `hive_ce`, bản cộng đồng còn được duy trì. Package `hive` gốc đã ngừng cập nhật |
+| Token, refresh token, khóa bí mật | `flutter_secure_storage` (Keychain / Keystore). Không lưu trong Hive hay SharedPreferences |
+| Key-value: settings, cache API đơn giản | `hive_ce`, bản cộng đồng còn được duy trì. Package `hive` gốc đã ngừng cập nhật |
 | Dữ liệu nghiệp vụ có quan hệ, cần query, filter, join, nhiều bản ghi | `drift` (SQLite) |
 
-Nhiều app dùng cả hai: `hive_ce` cho settings, `drift` cho dữ liệu nghiệp vụ.
+Nhiều app dùng cả ba: `flutter_secure_storage` cho token, `hive_ce` cho settings, `drift` cho dữ liệu nghiệp vụ.
 
 **Prompt mẫu: chọn kiến trúc**
 
@@ -192,7 +193,7 @@ Nhiều app dùng cả hai: `hive_ce` cho settings, `drift` cho dữ liệu nghi
 Đọc PRD.md. Ràng buộc: 1 dev, ngân sách server <X>/tháng, dự kiến <N> user và <M> bản ghi/ngày sau 1 năm.
 Đề xuất 2–3 phương án kiến trúc (Flutter + Go hoặc FastAPI + PostgreSQL).
 Mỗi phương án nêu: sơ đồ thành phần, chi phí, điểm nghẽn khi tăng x10, cách nâng cấp sau này.
-Kết luận: phương án nên chọn cho MVP, ghi thành ADR-001.
+Kết luận: phương án nên chọn cho MVP, ghi thành ADR-0001 theo templates/ADR.md.
 ```
 
 **Prompt mẫu: thiết kế database**
@@ -223,7 +224,7 @@ Hãy dựng mockup **trước** khi code UI. Sửa trên mockup mất vài phút
 
 ```text
 Từ các user stories trong PRD.md, vẽ user flow cho hành trình chính <...>.
-Đánh dấu bước nào có thể bỏ hoặc gộp để người dùng hoàn thành trong tối đa 3 thao tác.
+Đánh dấu bước nào có thể bỏ hoặc gộp để người dùng hoàn thành với ít thao tác nhất.
 ```
 
 **Prompt mẫu: mockup**
@@ -422,15 +423,17 @@ Phân nhóm theo vấn đề, đếm số lần xuất hiện, đánh giá mức
 
 ## Phụ lục
 
-### A. Mẫu CLAUDE.md
+### A. Ví dụ CLAUDE.md đã điền
+
+Mẫu trống để điền: [templates/CLAUDE.md](../templates/CLAUDE.md). Dưới đây là ví dụ đã điền cho Expense App.
 
 ```markdown
 # Expense App
 Ứng dụng quản lý chi tiêu cá nhân. Chi tiết: @docs/PRD.md, @docs/ARCHITECTURE.md
 
 ## Stack
-- app/: Flutter 3.x, BLoC, go_router, dio, hive_ce (settings), drift (dữ liệu offline)
-- server/: Go 1.2x (chi, sqlc, pgx) | PostgreSQL 16
+- app/: Flutter 3.x, BLoC, go_router, dio, flutter_secure_storage (token), hive_ce (settings), drift (dữ liệu offline)
+- server/: Go 1.2x (chi, sqlc, pgx) | PostgreSQL 18
 
 ## Lệnh
 - Chạy local: docker compose up -d
@@ -455,8 +458,8 @@ Phân nhóm theo vấn đề, đếm số lần xuất hiện, đánh giá mức
 ### B. Checklist từ ý tưởng đến phát hành
 
 - [ ] IDEA_BRIEF có bằng chứng thị trường kèm link, kết luận là Go
-- [ ] PRD có MVP tối đa 5 tính năng Must, có Out of scope
-- [ ] ARCHITECTURE và ADR-001 phù hợp quy mô dự kiến
+- [ ] PRD có MVP với MUST gọn (chỉ thứ cần cho journey chính), có Out of scope
+- [ ] ARCHITECTURE và ADR-0001 phù hợp quy mô dự kiến
 - [ ] Schema có index cho các query chính, đã biết bảng nào sẽ lớn nhanh
 - [ ] openapi.yaml đã chốt
 - [ ] Mockup 3–5 màn hình chính và DESIGN_SYSTEM

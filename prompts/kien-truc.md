@@ -1,0 +1,49 @@
+# Prompt: kiến trúc và công nghệ
+
+Đọc kèm: [Chọn kiến trúc phần mềm phù hợp](../guides/chon-kien-truc-phan-mem.md), [Chọn công nghệ làm mobile app](../guides/chon-cong-nghe-mobile-app.md).
+
+## Chọn kiến trúc
+
+```
+Dự án: <mô tả>. Bối cảnh:
+- quy mô user dự kiến năm đầu: <số>, đỉnh tải: <số request/giây hoặc mô tả>
+- team: <số người, quen ngôn ngữ gì>, ngân sách hạ tầng: <số/tháng>
+- dữ liệu: <loại, dung lượng, yêu cầu realtime / offline / báo cáo>
+- ràng buộc: <deadline, tuân thủ, tích hợp hệ thống có sẵn>
+Đề xuất 2–3 phương án kiến trúc. Mỗi phương án: sơ đồ (Mermaid), ưu, nhược, chi phí vận hành, khi nào phải đổi.
+Chọn 1 và nói vì sao. Mặc định ưu tiên đơn giản (monolith tách module) trừ khi có lý do rõ.
+```
+
+## Chọn công nghệ
+
+```
+So sánh <A> và <B> (và <C>) cho dự án trên. Tiêu chí: team đã quen chưa, hệ sinh thái thư viện,
+hiệu năng cho trường hợp <x>, chi phí, khả năng tuyển người, mức Claude / AI hỗ trợ tốt.
+Tra tài liệu chính thức để lấy tình trạng mới nhất (phiên bản, hỗ trợ). Ghi nguồn.
+Kết luận theo dạng: "chọn <A> nếu…, chọn <B> nếu…".
+```
+
+## Thiết kế database
+
+```
+Từ user story và quy tắc nghiệp vụ (đính kèm), thiết kế schema <PostgreSQL / MySQL / SQL Server>:
+bảng, cột, kiểu, khóa chính / ngoại, unique, index cần cho các truy vấn chính, soft delete hay không.
+Vẽ ERD bằng Mermaid. Liệt kê 5 truy vấn hay dùng nhất và index phục vụ chúng.
+Chỉ ra chỗ có thể N+1 hoặc phình to theo thời gian.
+```
+
+## Thiết kế API
+
+```
+Thiết kế REST API cho <tính năng>: method, path, request, response (JSON mẫu), mã lỗi, ai được gọi.
+Quy ước: <snake_case / camelCase>, phân trang <cursor / offset>, lỗi theo format <...>.
+Mỗi endpoint ghi rõ kiểm quyền gì (đăng nhập, sở hữu dữ liệu, role). Xuất OpenAPI 3.1 YAML.
+```
+
+## Viết ADR
+
+```
+Ghi lại quyết định kiến trúc theo mẫu templates/ADR.md:
+quyết định: <...>, các phương án đã cân nhắc: <...>, lý do chọn: <...>.
+Ngắn, ≤ 1 trang. Nêu rõ hệ quả xấu chấp nhận được và điều kiện để xem xét lại.
+```
