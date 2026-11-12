@@ -79,7 +79,7 @@ Số liệu theo [bảng availability của Google SRE](https://sre.google/sre-b
 
 - Zero-Trust: mọi request đều phải xác thực, kể cả giữa các service nội bộ.
 - Phân vùng mạng, mã hóa dữ liệu khi lưu trữ và khi truyền, audit log.
-- Quy định như GDPR, PCI-DSS hay luật bảo vệ dữ liệu cá nhân ở Việt Nam có thể buộc bạn tách riêng phần xử lý dữ liệu nhạy cảm (thanh toán, giấy tờ tùy thân) và quy định nơi lưu trữ dữ liệu.
+- Quy định như GDPR, PCI-DSS hay pháp luật bảo vệ dữ liệu cá nhân ở Việt Nam có thể buộc bạn tách riêng phần xử lý dữ liệu nhạy cảm (thanh toán, giấy tờ tùy thân, sức khỏe), ghi log truy cập và quy định nơi lưu trữ dữ liệu. Ở Việt Nam, khung chính hiện nay là [Luật Bảo vệ dữ liệu cá nhân số 91/2025/QH15](https://thuvienphapluat.vn/van-ban/Bo-may-hanh-chinh/Law-91-2025-QH15-Personal-Data-Protection-665440.aspx) (hiệu lực từ 01/01/2026) và [Nghị định 356/2025/NĐ-CP](https://thuvienphapluat.vn/van-ban/Quyen-dan-su/Nghi-dinh-356-2025-ND-CP-huong-dan-Luat-Bao-ve-du-lieu-ca-nhan-687428.aspx) hướng dẫn. Dự án có dữ liệu cá nhân nên hỏi luật sư sớm, vì yêu cầu về đồng ý, lưu trữ và chuyển dữ liệu ra nước ngoài (kể cả gửi cho AI hay cloud nước ngoài) ảnh hưởng trực tiếp tới kiến trúc.
 
 ## 3. Yêu cầu nghiệp vụ cốt lõi
 

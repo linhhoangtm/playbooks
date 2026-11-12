@@ -8,6 +8,7 @@ Chi tiết và ví dụ: [Dùng Claude để test web app và mobile app](../gui
 Đọc tính năng <tên> (code ở <đường dẫn>, spec ở <đường dẫn hoặc dán>).
 1. Viết acceptance criteria dạng Given / When / Then, tối đa 10 dòng (spec đã có thì dùng luôn).
 2. Lập bảng test case: criteria × 5 nhóm (happy path, input sai, không có quyền, dữ liệu trống, giá trị biên).
+   Có gọi mạng hoặc ghi dữ liệu thì thêm nhóm "lỗi hệ thống / đồng thời" (lỗi mạng, bấm 2 lần, 2 người cùng sửa).
    Cột: ID (TC-01…), nhóm, test case, input, output mong đợi, loại test (unit / widget / API / E2E),
    đã có test chưa (grep thư mục test).
 3. Đánh dấu ca nào bạn không chắc output mong đợi để mình xác nhận.
@@ -21,6 +22,22 @@ Viết test cho các ca <TC-01..TC-12> chưa có test trong bảng đã duyệt,
 (đúng thư viện, dùng fake server / fixture có sẵn, không thêm thư viện mới). Chỉ viết trong thư mục test.
 Chạy test vừa viết và báo kết quả. Ca nào fail: cho biết lỗi nằm ở code, ở test hay yêu cầu chưa rõ.
 Fail vì bug thật → giữ nguyên test, ghi bug, không sửa code để test pass.
+```
+
+## Tìm chỗ thiếu test
+
+```
+So sánh test hiện có trong <test/features/> với 5 nhóm test case cho từng màn hình trong <lib/features/>.
+Lập bảng: màn hình – nhóm nào đã có – nhóm nào còn thiếu – mức rủi ro.
+Ưu tiên các màn có tiền, đăng nhập, dữ liệu cá nhân.
+```
+
+## Sinh ca biên cho một hàm
+
+```
+Đọc hàm <tên hàm> trong <file>. Liệt kê mọi giới hạn ngầm hoặc tường minh trong code
+(độ dài, khoảng số, ngày giờ, số phần tử). Với mỗi giới hạn, viết test cho ngay dưới, đúng biên và ngay trên biên.
+Nếu code không kiểm tra giới hạn mà lẽ ra phải có, ghi lại như một lỗi tiềm ẩn.
 ```
 
 ## Kiểm quyền / IDOR
@@ -38,6 +55,14 @@ In bảng: endpoint | hành động | status mong đợi | status thực tế.
 Rà bảo mật <phạm vi> theo OWASP API Top 10 và OWASP MASVS (nếu có mobile):
 kiểm quyền, validation, injection, secrets trong code / app, lưu token trên máy, HTTP không TLS, log lộ dữ liệu.
 Chỉ báo lỗ hổng có bằng chứng (file:dòng hoặc request tái hiện). Mức: High / Med / Low + cách sửa.
+```
+
+## Security app mobile
+
+```
+Rà app <lib/ hoặc mobile/src> theo OWASP MASVS: lưu trữ dữ liệu, mạng (HTTPS, kiểm chứng chỉ),
+xác thực, log có làm lộ token hay dữ liệu cá nhân không, deep link có bị lợi dụng được không.
+Liệt kê lỗi theo mức độ, kèm file:dòng và cách sửa.
 ```
 
 ## Chống bot
@@ -72,6 +97,14 @@ Bảng: ID | rủi ro | payload | response tóm tắt | kết quả | cách sử
 Tìm điểm chậm trong <phạm vi>: query trong vòng lặp (N+1), thiếu index, list không phân trang,
 gọi API ngoài không timeout / cache, render thừa, ảnh lớn. Đo nếu server local đang chạy.
 Bảng: vấn đề | file:dòng | số đo (ms, số query) | cách sửa.
+```
+
+## Load test API
+
+```
+Viết script k6 cho 3 API App gọi nhiều nhất trong /api/v1 (đọc từ lib/ của app).
+Tăng dần từ 10 đến 200 user ảo trong 5 phút, báo p50, p95, p99 và tỉ lệ lỗi.
+Chỉ chạy với server local hoặc môi trường thử, không chạy vào production.
 ```
 
 ## Memory leak

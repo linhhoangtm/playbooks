@@ -264,7 +264,9 @@ Bước rà thiếu sót (5.5) bắt được thêm: *tháng nhuận* và *nhi�
 
 **Bước 6 — Test 5 người.** Giả sử kết quả: 3/5 không thấy nút bật nhắc vì nằm trong menu "…". Sửa: đưa nút ra ngoài, chữ "Nhắc tôi". Vòng 2: 5/5 làm được.
 
-**Bước 7 — Bàn giao.** Tạo gói bàn giao theo mục 9, đính kèm link prototype, story US-01…US-05, quy tắc âm lịch BR-01…BR-03, JSON mẫu, 2 câu hỏi mở.
+**Bước 7 — Bàn giao.** Tạo gói bàn giao theo mục 9, đính kèm link prototype, story US-01…US-05, quy tắc âm lịch BR-01…BR-05, JSON mẫu, 2 câu hỏi mở.
+
+Bộ tài liệu đã điền sẵn cho ví dụ này (PRD, user story, tài liệu bàn giao, báo cáo test sau khi code): [examples/nhac-ngay-gio/](../examples/nhac-ngay-gio/).
 
 ## 8. Test prototype với người dùng
 

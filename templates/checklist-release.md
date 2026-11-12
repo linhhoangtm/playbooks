@@ -12,7 +12,7 @@
 - [ ] Mọi endpoint mới kiểm đăng nhập + dữ liệu thuộc về user + role
 - [ ] Không có secret trong code / app; token lưu bằng secure storage
 - [ ] Rate limit cho đăng nhập, OTP, đăng ký, gọi AI; quota AI theo user
-- [ ] Xác minh thanh toán / receipt ở server
+- [ ] Xác minh thanh toán / receipt ở server; bấm 2 lần hoặc webhook gọi lại không trừ tiền / tạo đơn 2 lần
 - [ ] Đã chạy security review, không còn mục High
 - [ ] Red-team tính năng AI đã chạy với bản system prompt mới nhất
 
@@ -35,6 +35,13 @@
 - [ ] Cấu hình / biến môi trường mới đã thêm ở production
 - [ ] Monitoring / alert cho tính năng mới
 - [ ] Release note cho người dùng và cho team
+
+## Quyền riêng tư và pháp lý
+
+- [ ] Chính sách quyền riêng tư khớp dữ liệu app thực thu thập, có link trong app và trên store
+- [ ] Xin đồng ý trước khi thu thập dữ liệu cá nhân không bắt buộc; rút lại đồng ý được
+- [ ] Đã rà theo pháp luật bảo vệ dữ liệu cá nhân hiện hành (Luật 91/2025/QH15 và văn bản hướng dẫn), nhất là dữ liệu gửi ra nước ngoài (AI, cloud, analytics)
+- [ ] App / web có bán hàng hoặc đặt hàng: đã thông báo / đăng ký với Bộ Công Thương theo quy định thương mại điện tử hiện hành
 
 ## Store (nếu là app mobile)
 

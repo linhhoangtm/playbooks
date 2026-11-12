@@ -86,6 +86,15 @@ Google Play target API, Data safety, link web xóa tài khoản, demo account ch
 Bảng: mục | bằng chứng file:dòng | rủi ro (cao / trung / thấp) | cách sửa. Không sửa code, chỉ báo cáo.
 ```
 
+## Kiểm permission thừa
+
+```
+Liệt kê mọi permission trong AndroidManifest.xml và key NS*UsageDescription
+trong Info.plist. Với mỗi cái, grep code xem có dùng thật không.
+Đánh dấu: dùng / không dùng / description chung chung ("app cần quyền này").
+Đề xuất câu description tiếng Việt cụ thể cho cái đang dùng.
+```
+
 ## App Review Notes
 
 ```

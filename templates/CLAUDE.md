@@ -38,7 +38,7 @@ Xóa các comment này sau khi điền.
 - Mỗi màn có đủ 4 trạng thái: loading, có dữ liệu, rỗng, lỗi
 - Lỗi API: <format>; luôn hiển thị thông báo người dùng hiểu được
 - Test: <thư viện>; test mới đặt ở <thư mục>; mỗi bug sửa xong có 1 test tái hiện
-- Mỗi tính năng xét đủ 5 nhóm test: happy path, input sai, không có quyền, dữ liệu trống, giá trị biên
+- Mỗi tính năng xét đủ 5 nhóm test: happy path, input sai, không có quyền, dữ liệu trống, giá trị biên; có gọi mạng hoặc ghi dữ liệu thì thêm lỗi mạng / bấm 2 lần / sửa đồng thời
 - Test fail: báo nguyên nhân, không sửa code hay nới lỏng assert chỉ để pass
 - Integration test dùng DB thật (vd Testcontainers), không mock database
 - Kiểm quyền ở server cho mọi endpoint: đăng nhập + dữ liệu thuộc về user + role

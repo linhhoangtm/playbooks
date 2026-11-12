@@ -362,7 +362,17 @@ vi phạm convention trong CLAUDE.md. Output: danh sách vấn đề xếp theo 
 - Dùng `/clear` giữa các task không liên quan, và `/compact` khi phiên đã dài.
 - Dùng `@file` để chỉ đúng file cần đọc, không bắt Claude đọc cả repo.
 - Việc khảo sát lớn (“tìm mọi chỗ dùng X”) nên giao cho subagent để không làm đầy context chính.
-- Chỉ dùng chế độ bỏ qua permission trong môi trường cô lập, không chạy trên máy có dữ liệu thật.
+
+### An toàn khi để Claude chạy lệnh
+
+Claude Code chạy lệnh thật trên máy bạn, với quyền của bạn. Vài quy tắc tối thiểu:
+
+- **Chặn cứng điều cấm bằng `.claude/settings.json`**, không chỉ dặn trong CLAUDE.md: đọc `.env` và file khóa, `git push`, `rm -rf`, lệnh migrate / deploy production. Mẫu: [templates/settings.json](../templates/settings.json).
+- **Chế độ bỏ qua permission** (tự chạy mọi lệnh không hỏi) chỉ dùng trong môi trường cô lập: container, máy ảo, worktree không có secret. Không dùng trên máy có dữ liệu thật hay quyền vào production.
+- **Nội dung Claude đọc có thể chứa lệnh ẩn** (prompt injection): issue, README của thư viện lạ, trang web, file khách gửi. Khi giao việc đọc nguồn không tin cậy, giữ chế độ hỏi trước khi chạy lệnh và đọc kỹ lệnh Claude đề xuất.
+- **Không trỏ MCP vào database production.** Dùng DB local, bản sao đã ẩn dữ liệu, hoặc tài khoản chỉ đọc.
+- **Secret không đi vào prompt:** không dán API key, mật khẩu, dữ liệu khách hàng thật vào chat. Nếu lỡ dán, coi như đã lộ và đổi key.
+- **Dữ liệu chat có được dùng để huấn luyện không:** gói cá nhân xem và chỉnh trong phần cài đặt quyền riêng tư của Claude; gói Team / Enterprise theo điều khoản thương mại của tổ chức. Kiểm lại trước khi đưa tài liệu nội bộ vào.
 
 ## 7. Test và review
 
@@ -415,7 +425,7 @@ mô tả ngắn (tối đa 80 ký tự), mô tả dài, 5 caption cho ảnh ch�
 Dựa trên IDEA_BRIEF.md, nhấn mạnh điểm khác biệt so với đối thủ.
 ```
 
-**Lưu ý:** khi để Claude thao tác trên console của store bằng trình duyệt, bạn nên tự bấm nút Submit cuối cùng.
+**Lưu ý:** khi để Claude thao tác trên console của store bằng trình duyệt, bạn nên tự bấm nút Submit cuối cùng. Prompt viết privacy policy từ chính source code, và các prompt CI/CD, store listing: [prompts/ke-hoach-trien-khai-van-hanh.md](../prompts/ke-hoach-trien-khai-van-hanh.md). Việc cần làm về pháp lý: [Phụ lục D](#d-pháp-lý-cần-biết-ở-việt-nam).
 
 ## 9. Vận hành và cải tiến
 
@@ -498,10 +508,38 @@ Các điều cấm quan trọng (đọc `.env`, push, xóa hàng loạt) nên ch
 | Phiên làm việc quá dài | Claude quên hoặc nhầm context | `/clear` sau mỗi task |
 | Accept code không đọc | Bug và lỗ hổng bảo mật ẩn | Đọc diff, chạy test, dùng subagent review |
 
+### D. Pháp lý cần biết ở Việt Nam
+
+Phần này chỉ để biết cần hỏi gì, không thay cho tư vấn pháp lý. Văn bản thay đổi nhanh, hãy kiểm tra bản hiện hành trên cổng văn bản chính thức trước khi áp dụng.
+
+| Chủ đề | Khi nào liên quan | Việc cần làm |
+| --- | --- | --- |
+| Bảo vệ dữ liệu cá nhân: Luật 91/2025/QH15 (hiệu lực 01/01/2026), Nghị định 356/2025/NĐ-CP hướng dẫn | App có tài khoản, số điện thoại, vị trí, ảnh, dữ liệu sức khỏe, tài chính | Xin đồng ý rõ ràng, cho xem / sửa / xóa dữ liệu, chính sách quyền riêng tư, xác định dữ liệu nào gửi ra nước ngoài (AI, cloud, analytics) |
+| Thương mại điện tử | App hoặc web có bán hàng, đặt hàng, thanh toán | Thông báo hoặc đăng ký với Bộ Công Thương qua cổng online.gov.vn; hiển thị thông tin doanh nghiệp, chính sách đổi trả, giải quyết khiếu nại. Quy định đang được thay bằng văn bản mới, kiểm tra trước khi nộp |
+| Chính sách store | Mọi app lên App Store / Google Play | Privacy policy có link công khai, khai báo App Privacy / Data safety khớp thực tế, xóa tài khoản trong app |
+
+Dùng Claude để chuẩn bị: prompt **Privacy policy** trong [prompts/ke-hoach-trien-khai-van-hanh.md](../prompts/ke-hoach-trien-khai-van-hanh.md) liệt kê dữ liệu app thực thu thập từ source code rồi viết nháp; luật sư duyệt bản cuối.
+
+### E. Chi phí ước tính cho một MVP
+
+Giá tham khảo tháng 11/2026, bằng USD, chưa gồm thuế. Kiểm lại trên trang giá chính thức trước khi lập ngân sách.
+
+| Khoản | Mức | Ghi chú |
+| --- | --- | --- |
+| Gói Claude | Pro $20/tháng; Max $100 hoặc $200/tháng | Claude Code và Claude Design dùng chung hạn mức gói. Làm hằng ngày nhiều giờ thường cần Max ([claude.com/pricing](https://claude.com/pricing)) |
+| Tính năng AI trong app | Tính theo token qua Claude API | Đặt quota theo user và `max_tokens` ngay từ đầu; ước tính = số user hoạt động × số lượt / ngày × token / lượt |
+| Server | VPS $5–20/tháng cho MVP; PaaS hoặc BaaS có gói miễn phí giới hạn | Thêm backup DB và object storage |
+| Tài khoản nhà phát triển | Apple $99/năm; Google Play $25 một lần | Đăng ký tài khoản tổ chức cần mã số D-U-N-S, mất vài ngày đến vài tuần |
+| Build iOS | Cần máy Mac, hoặc dịch vụ build cloud (Codemagic, EAS Build, GitHub Actions macOS) có gói miễn phí giới hạn | |
+| SMS OTP, email | Tính theo tin | Rate limit để tránh bị spam OTP làm tốn tiền ([guide test, mục 10](claude-test-web-mobile.md#10-chống-bot-và-tấn-công-bằng-ai)) |
+| Tên miền, crash report, analytics | Tên miền ~$10–15/năm; Sentry, Crashlytics có gói miễn phí | |
+
 ### Nguồn tham khảo
 
 - [Claude Code: Features overview](https://code.claude.com/docs/en/features-overview)
 - [Claude Code docs map](https://code.claude.com/docs/en/claude_code_docs_map)
 - [Claude Code power user tips](https://support.claude.com/en/articles/14554000-claude-code-power-user-tips)
 - [Migrate a Flutter app from Hive to Drift (hive_ce, drift)](https://startdebugging.net/2026/10/migrate-a-flutter-app-from-hive-to-drift/)
-- [Hive vs Drift vs Floor vs Isar](https://quashbugs.com/blog/hive-vs-drift-vs-floor-vs-isar-2025)
+- [Hive vs Drift vs Floor vs Isar](https://quashbugs.com/blog/hive-vs-drift-vs-floor-vs-isar-2025) · [hive_ce](https://pub.dev/packages/hive_ce) · [drift](https://pub.dev/packages/drift) · [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage)
+- [Luật Bảo vệ dữ liệu cá nhân 91/2025/QH15](https://thuvienphapluat.vn/van-ban/Bo-may-hanh-chinh/Law-91-2025-QH15-Personal-Data-Protection-665440.aspx) · [Nghị định 356/2025/NĐ-CP](https://thuvienphapluat.vn/van-ban/Quyen-dan-su/Nghi-dinh-356-2025-ND-CP-huong-dan-Luat-Bao-ve-du-lieu-ca-nhan-687428.aspx)
+- [Claude pricing](https://claude.com/pricing) · [Apple Developer Program](https://developer.apple.com/programs/) · [Google Play Console — đăng ký](https://support.google.com/googleplay/android-developer/answer/6112435)

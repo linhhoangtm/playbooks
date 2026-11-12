@@ -23,6 +23,11 @@
 ### Giá trị biên
 - **Given** <0, max, max+1, ngày 29/02, cuối tháng, trang cuối…> **When** <...> **Then** <...>
 
+### Bổ sung: lỗi hệ thống và đồng thời
+<!-- Chỉ khi story có gọi mạng hoặc ghi dữ liệu; không áp dụng thì xóa mục này. -->
+- **Given** <mất mạng / server lỗi / đang gửi> **When** <bấm Lưu, bấm 2 lần, người khác vừa sửa> **Then** <không mất dữ liệu, không tạo trùng, báo xung đột>
+
+
 ## Ghi chú
 
 - <Câu hỏi mở, link thiết kế, dữ liệu mẫu>

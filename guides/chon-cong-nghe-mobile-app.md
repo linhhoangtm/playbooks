@@ -11,7 +11,8 @@ Không có công nghệ mobile “tốt nhất”, chỉ có công nghệ hợp 
 - [3. So sánh theo tiêu chí](#3-so-sánh-theo-tiêu-chí)
 - [4. Yếu tố quyết định](#4-yếu-tố-quyết-định)
 - [5. Khi code cùng AI](#5-khi-code-cùng-ai-claude-code-copilot)
-- [6. Gợi ý theo loại app và prompt mẫu](#6-gợi-ý-theo-loại-app-và-prompt-mẫu)
+- [6. Build, phát hành và cập nhật](#6-build-phát-hành-và-cập-nhật)
+- [7. Gợi ý theo loại app và prompt mẫu](#7-gợi-ý-theo-loại-app-và-prompt-mẫu)
 - [Nguồn](#nguồn)
 
 ## 1. Chọn nhanh
@@ -104,7 +105,29 @@ Mục này là nhận định từ kinh nghiệm dùng AI, không phải số li
 - Bật lint và analyzer ở mức chặt, để AI tự sửa lỗi theo thông báo của công cụ.
 - Luôn test trên máy thật, đặc biệt máy Android cấu hình thấp.
 
-## 6. Gợi ý theo loại app và prompt mẫu
+## 6. Build, phát hành và cập nhật
+
+Chọn công nghệ xong, đừng quên phần chi phí và quy trình ra store. Phần này ảnh hưởng đến lựa chọn nhiều hơn người ta nghĩ.
+
+**Build và tài khoản**
+
+- **Build iOS cần macOS và Xcode.** Không có Mac thì dùng dịch vụ build cloud: [EAS Build](https://docs.expo.dev/build/introduction/) (Expo), [Codemagic](https://codemagic.io) (Flutter, React Native, native), hoặc GitHub Actions với runner macOS. Đều có gói miễn phí giới hạn số phút.
+- **Phí tài khoản:** Apple Developer Program $99/năm, Google Play $25 một lần. Đăng ký tên tổ chức (không phải cá nhân) cần mã số D-U-N-S, nên làm sớm vì có thể mất vài tuần.
+- **Ký app:** giữ keystore Android và chứng chỉ iOS ở nơi an toàn có backup; mất keystore là không cập nhật được app cũ trên Google Play (trừ khi dùng Play App Signing).
+
+**Cập nhật không qua store (OTA)**
+
+| Công nghệ | Công cụ | Cập nhật được gì |
+| --- | --- | --- |
+| React Native (Expo) | [EAS Update](https://docs.expo.dev/eas-update/introduction/) | Code JavaScript và asset; thay đổi native vẫn phải lên store |
+| Flutter | [Shorebird](https://shorebird.dev) | Code Dart; thay đổi native và plugin mới vẫn phải lên store |
+| Native, KMP | Không có cơ chế tương đương phổ biến | Mọi thay đổi qua store; dùng feature flag / remote config để bật tắt tính năng |
+
+OTA hợp để sửa lỗi gấp. Không dùng OTA để thêm tính năng lớn hay đổi mục đích app nhằm né review: cả Apple và Google đều cấm, và app có thể bị gỡ. Đọc chính sách hiện hành của từng store trước khi bật.
+
+**Sau khi phát hành:** cài crash report (Crashlytics, Sentry) và analytics ngay từ bản đầu, kèm một remote config / feature flag để tắt nhanh tính năng lỗi mà không cần chờ review.
+
+## 7. Gợi ý theo loại app và prompt mẫu
 
 | Loại app | Gợi ý | Lý do |
 | --- | --- | --- |
@@ -153,3 +176,5 @@ cấu trúc, lệnh build và test, quy ước, điều cấm.
 - [.NET MAUI Support Policy – Microsoft](https://dotnet.microsoft.com/en-us/platform/support/policy/maui)
 - [PWA iOS limitations – MagicBell](https://www.magicbell.com/blog/pwa-ios-limitations-safari-support-complete-guide)
 - [Stack Overflow Developer Survey 2025 – Technology](https://survey.stackoverflow.co/2025/technology/)
+- [EAS Build](https://docs.expo.dev/build/introduction/) · [EAS Update](https://docs.expo.dev/eas-update/introduction/) · [Shorebird](https://shorebird.dev) · [Codemagic](https://codemagic.io)
+- [Apple Developer Program](https://developer.apple.com/programs/) · [Google Play — Play App Signing](https://support.google.com/googleplay/android-developer/answer/9842756)

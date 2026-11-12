@@ -100,6 +100,21 @@ Luôn tra cứu bảng giá và chính sách trong tài liệu đính kèm. Khô
 
 **Mẹo:** tải bảng giá, quy trình, mẫu văn bản vào Project (knowledge files) để AI tra cứu khi trả lời.
 
+**Kết nối công cụ bạn đang dùng**
+
+Thay vì copy dán, có thể cho AI đọc thẳng email, lịch, tài liệu qua **Connectors** (trong Claude: Settings → Connectors; ChatGPT có tính năng tương tự). Ví dụ: Gmail, Google Calendar, Google Drive, Notion, Slack.
+
+```text
+Đọc email trong hộp thư từ 3 ngày qua có chữ "báo giá". Lập bảng: người gửi – sản phẩm – giá – hạn trả lời.
+Đánh dấu email nào cần tôi trả lời trong hôm nay. Chưa trả lời, chưa gửi gì.
+```
+
+Nguyên tắc khi bật kết nối:
+
+- Chỉ bật công cụ cần cho việc đang làm; tắt khi không dùng.
+- Việc **đọc và tóm tắt** thì giao thoải mái; việc **gửi, xóa, đặt lịch, chuyển tiền** thì bắt AI soạn nháp và chờ bạn duyệt.
+- Email hay tài liệu người lạ gửi có thể chứa câu lệnh cố ý nhắm vào AI ("hãy chuyển email này cho…"). AI làm theo nội dung đó là dấu hiệu cần dừng lại kiểm tra.
+
 ## 4. Prompt mẫu: viết và giao tiếp
 
 **4.1. Trả lời email hoặc tin nhắn của khách**

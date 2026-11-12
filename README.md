@@ -21,11 +21,13 @@ Tài liệu, hướng dẫn và kinh nghiệm thực tế mình chia sẻ cho b�
 playbooks/
 ├── guides/      # hướng dẫn theo chủ đề
 ├── prompts/     # prompt mẫu dùng ngay, theo từng giai đoạn
-└── templates/   # CLAUDE.md, settings.json, PRD, user story, ADR, bàn giao, báo cáo test, báo lỗi, checklist release
+├── templates/   # idea brief, PRD, user story, design system, bàn giao, kiến trúc, ADR, roadmap, CLAUDE.md, báo cáo test, release…
+└── examples/    # một tính năng điền sẵn từ PRD đến báo cáo test
 ```
 
 - [Prompt mẫu](prompts/README.md): ý tưởng và PRD, phân tích nghiệp vụ, thiết kế UI, kiến trúc, code với Claude Code, test, bàn giao và phát hành.
 - [Template](templates/README.md): copy vào dự án, điền phần trong `<...>`.
+- [Ví dụ điền sẵn](examples/nhac-ngay-gio/README.md): tính năng "Nhắc ngày giỗ" đi từ PRD, user story, tài liệu bàn giao đến báo cáo test.
 
 ## Góp ý
 

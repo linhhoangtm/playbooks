@@ -12,7 +12,8 @@ Prompt copy là dùng được ngay. Thay phần trong `<...>` bằng thông tin
 | [kien-truc.md](kien-truc.md) | Chọn kiến trúc, chọn công nghệ, thiết kế database và API, viết ADR |
 | [code-voi-claude-code.md](code-voi-claude-code.md) | Lên kế hoạch, code từng bước, debug, refactor, review |
 | [test.md](test.md) | 5 nhóm test case, UI/UX, security, chống bot, tấn công AI, performance, memory |
-| [ban-giao-va-phat-hanh.md](ban-giao-va-phat-hanh.md) | Tài liệu bàn giao cho dev (từ PRD + ảnh chụp màn hình), cập nhật sau câu hỏi mở, release note, nộp App Store / Google Play |
+| [ban-giao-va-phat-hanh.md](ban-giao-va-phat-hanh.md) | Tài liệu bàn giao cho dev (từ PRD + ảnh chụp màn hình), cập nhật sau câu hỏi mở, release note, permission, nộp App Store / Google Play |
+| [ke-hoach-trien-khai-van-hanh.md](ke-hoach-trien-khai-van-hanh.md) | Roadmap, CI/CD, store listing, privacy policy, gom phản hồi sau phát hành, query chậm, postmortem |
 
 ## 5 nguyên tắc viết prompt
 

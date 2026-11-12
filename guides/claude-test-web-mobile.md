@@ -15,6 +15,9 @@ Claude viết test rất nhanh, nhưng chỉ tốt khi bạn cho nó **biết te
 | Không có quyền | Người không được phép thì không xem, không sửa được | Chưa đăng nhập, token hết hạn, user A sửa dữ liệu của user B |
 | Dữ liệu trống | App xử lý đúng khi không có gì để hiển thị hoặc trường bị bỏ trống | Danh sách rỗng, trường `null`, chuỗi rỗng, chỉ có khoảng trắng |
 | Giá trị biên | Hành vi đúng tại và quanh các giới hạn | Độ dài tối đa, số 0 và số âm, năm nhuận, 23:59 → 00:00, trang cuối của phân trang |
+| *Bổ sung:* lỗi hệ thống và đồng thời | Khi tính năng gọi mạng hoặc ghi dữ liệu: lỗi ngoài tầm kiểm soát của user và thao tác chồng nhau | Timeout, 500/503, mất mạng giữa chừng; bấm Lưu 2 lần, 2 người cùng sửa, gửi lại request sau khi đã thành công |
+
+Năm nhóm đầu áp dụng cho mọi tính năng. Nhóm bổ sung chỉ xét khi tính năng có gọi mạng hoặc ghi dữ liệu, nhưng đó lại là phần lớn tính năng thật, và lỗi ở đây thường gây mất dữ liệu hoặc trừ tiền 2 lần.
 
 Hai kỹ thuật kinh điển giúp chọn test case ít mà đủ: **phân vùng tương đương** (mỗi vùng giá trị hợp lệ và không hợp lệ chỉ cần một đại diện) và **phân tích giá trị biên** (thử đúng tại biên, ngay dưới và ngay trên biên). Bạn có thể yêu cầu Claude áp dụng cả hai.
 
@@ -74,6 +77,7 @@ Hai kỹ thuật kinh điển giúp chọn test case ít mà đủ: **phân vùn
 Đọc tính năng <đăng nhập> (code ở <lib/features/auth/login_screen.dart> và API <src/app/api/v1/account/...>, spec ở <đường dẫn hoặc dán>).
 1. Viết acceptance criteria dạng Given / When / Then, tối đa 10 dòng (spec đã có thì dùng luôn).
 2. Lập bảng test case: criteria × 5 nhóm (happy path, input sai, không có quyền, dữ liệu trống, giá trị biên).
+   Có gọi mạng hoặc ghi dữ liệu thì thêm nhóm "lỗi hệ thống / đồng thời" (lỗi mạng, bấm 2 lần, 2 người cùng sửa).
    Cột: ID (TC-01…), nhóm, test case, input, output mong đợi, loại test (unit / widget / API / E2E),
    đã có test chưa (grep thư mục test).
 3. Đánh dấu ca nào bạn không chắc output mong đợi để mình xác nhận.
@@ -114,7 +118,6 @@ Luồng chính chạy đúng khi mọi thứ hợp lệ. Chỉ cần 1–2 ca ch
 - [ ] Ký tự đặc biệt và tiếng Việt: dấu, emoji, chữ Hán Nôm, `' " < > ;`
 - [ ] Chèn mã: `' OR 1=1 --`, `<script>alert(1)</script>`, đường dẫn `../../`
 - [ ] Backend tự kiểm tra lại, không tin client: gọi API trực tiếp với dữ liệu sai phải nhận 400 và thông báo rõ
-- [ ] Lỗi mạng và lỗi server: timeout, 500, 503, mất mạng giữa chừng
 
 ### 4.3. Không có quyền
 
@@ -145,6 +148,17 @@ Với mỗi giới hạn, thử 3 giá trị: **ngay dưới biên, đúng biên
 - [ ] Phân trang: trang đầu, trang cuối, trang vượt quá
 - [ ] Giới hạn tần suất: request thứ N và N+1
 - [ ] Màn hình: máy nhỏ nhất và lớn nhất, cỡ chữ hệ thống lớn
+
+### 4.6. Bổ sung: lỗi hệ thống và thao tác đồng thời
+
+Xét khi tính năng gọi mạng hoặc ghi dữ liệu.
+
+- [ ] Lỗi mạng và server: timeout, 500, 503, mất mạng giữa chừng → thông báo rõ, có nút Thử lại, không mất dữ liệu đang nhập
+- [ ] Bấm Lưu / Thanh toán 2 lần liên tiếp → chỉ tạo 1 bản ghi (nút khóa khi đang gửi, server dùng idempotency key)
+- [ ] Gửi lại request sau khi đã thành công (app retry, webhook gọi lại) → không trừ tiền hay tạo bản ghi lần 2
+- [ ] 2 người cùng sửa một bản ghi → người lưu sau được báo xung đột, không ghi đè im lặng (version / `updated_at`)
+- [ ] Hết phiên đăng nhập giữa lúc đang nhập form → đăng nhập lại xong vẫn còn dữ liệu
+- [ ] App bị tắt hoặc đưa xuống nền giữa lúc đang ghi → mở lại không có dữ liệu nửa vời
 
 **Prompt mẫu: sinh ca biên cho một hàm**
 
@@ -235,6 +249,79 @@ Web dùng Next.js server actions. Với mọi action trong khu quản trị (th�
 Liệt kê mọi server action và route API trong src/ có ghi hoặc xóa dữ liệu.
 Với từng cái: có kiểm tra đăng nhập không, có kiểm tra vai trò (người đọc / biên tập / quản trị) ở phía server không,
 có kiểm tra dữ liệu vào bằng schema không. Lập bảng và đánh dấu chỗ thiếu. Chưa sửa code.
+```
+
+### 5.5. Backend Go hoặc FastAPI: một bảng, đủ 5 nhóm
+
+Cả Go và Python đều hợp với kiểu **table-driven test**: mỗi dòng ma trận test case là một dòng trong bảng, nên đối chiếu với ma trận đã duyệt rất dễ. Ví dụ API `POST /v1/expenses` (tạo khoản chi):
+
+**Go** (`testing` + `httptest`, DB thật qua Testcontainers dựng trong `TestMain`):
+
+```go
+func TestCreateExpense(t *testing.T) {
+	srv := newTestServer(t) // dựng router + PostgreSQL thật, dọn dữ liệu sau mỗi test
+	owner, other := srv.createUser(t), srv.createUser(t)
+
+	cases := []struct {
+		id, name string
+		token    string
+		body     string
+		want     int
+	}{
+		{"TC-01", "happy path", owner.Token, `{"amount":50000,"note":"Cà phê"}`, 201},
+		{"TC-02", "input sai: số tiền âm", owner.Token, `{"amount":-1}`, 400},
+		{"TC-03", "input sai: thiếu trường", owner.Token, `{}`, 400},
+		{"TC-04", "không quyền: chưa đăng nhập", "", `{"amount":50000}`, 401},
+		{"TC-05", "dữ liệu trống: note chỉ có khoảng trắng", owner.Token, `{"amount":50000,"note":"   "}`, 201},
+		{"TC-06", "biên: số tiền tối đa", owner.Token, `{"amount":999999999999}`, 201},
+		{"TC-07", "biên: vượt tối đa 1", owner.Token, `{"amount":1000000000000}`, 400},
+	}
+	for _, c := range cases {
+		t.Run(c.id+" "+c.name, func(t *testing.T) {
+			res := srv.post(t, "/v1/expenses", c.token, c.body)
+			if res.Code != c.want {
+				t.Fatalf("status = %d, want %d, body = %s", res.Code, c.want, res.Body)
+			}
+		})
+	}
+
+	t.Run("TC-08 không quyền: user khác đọc khoản chi", func(t *testing.T) {
+		id := srv.createExpense(t, owner)
+		if res := srv.get(t, "/v1/expenses/"+id, other.Token); res.Code != 404 {
+			t.Fatalf("IDOR: status = %d, want 404", res.Code)
+		}
+	})
+}
+```
+
+**FastAPI** (`pytest` + `httpx`, fixture `client`, `owner`, `other` trong `conftest.py`, DB thật qua Testcontainers):
+
+```python
+import pytest
+
+@pytest.mark.parametrize("case_id, token, body, want", [
+    ("TC-01", "owner", {"amount": 50000, "note": "Cà phê"}, 201),
+    ("TC-02", "owner", {"amount": -1}, 422),
+    ("TC-04", None, {"amount": 50000}, 401),
+    ("TC-06", "owner", {"amount": 999_999_999_999}, 201),
+    ("TC-07", "owner", {"amount": 1_000_000_000_000}, 422),
+])
+def test_create_expense(client, users, case_id, token, body, want):
+    headers = users.auth(token)  # None → không gửi Authorization
+    res = client.post("/v1/expenses", json=body, headers=headers)
+    assert res.status_code == want, f"{case_id}: {res.text}"
+
+def test_TC08_other_user_cannot_read(client, users, expense_of_owner):
+    res = client.get(f"/v1/expenses/{expense_of_owner}", headers=users.auth("other"))
+    assert res.status_code == 404
+```
+
+Lưu ý FastAPI trả **422** cho lỗi validate của Pydantic, không phải 400. Thống nhất một mã trong quy ước API (ghi vào CLAUDE.md) rồi cho test theo đó.
+
+```text
+Làm theo mẫu table-driven trong <server/internal/expense/handler_test.go | tests/test_expense.py>.
+Viết test cho API <POST /v1/...> từ ma trận TC-01…TC-xx đã duyệt: mỗi ca 1 dòng bảng, tên ca có ID.
+Dùng DB thật qua Testcontainers như các test hiện có, không mock repository. Chạy <go test ./... | pytest -q> và báo kết quả.
 ```
 
 ## 6. Test UI/UX và E2E
