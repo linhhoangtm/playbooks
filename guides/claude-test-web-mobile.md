@@ -1,6 +1,6 @@
 # Dùng Claude để test web app và mobile app
 
-Cập nhật: 2026-11-12
+Cập nhật: 2026-11-13
 
 Claude viết test rất nhanh, nhưng chỉ tốt khi bạn cho nó **biết test cái gì** và **cho nó chạy được test**. Tài liệu này dành cho fullstack dev dùng Flutter hoặc React Native cho mobile, web app, và backend Go, FastAPI hoặc Next.js với PostgreSQL. Nó xoay quanh 5 nhóm test case: happy path, input sai, không có quyền, dữ liệu trống và giá trị biên.
 
@@ -570,29 +570,86 @@ Bước 1–3 dùng hai prompt ở [mục 3](#3-quy-trình-từ-yêu-cầu-đế
 
 Review không chỉ đọc code — reviewer **mở app như user thật**. Phần lớn lỗi reject là thiếu tính năng bắt buộc hoặc khai báo không khớp hành vi.
 
+**Trước khi nộp (theo mục "Before You Submit" của Apple, áp dụng cho cả Google)**
+
+- [ ] Test trên máy thật, build release: không crash, không màn "coming soon", không chữ placeholder.
+- [ ] Demo account dùng được, không cần OTP thật, có sẵn dữ liệu mẫu; hoặc có chế độ demo đủ tính năng.
+- [ ] Backend, API, gói IAP **chạy suốt thời gian review** (thường vài ngày), không tắt staging hay đổi mật khẩu demo giữa chừng.
+- [ ] Review Notes giải thích tính năng khó thấy, cách tìm gói IAP, phần cứng / mã QR cần để thử.
+- [ ] App thuộc ngành có quản lý (tài chính, y tế, cho vay, VPN…): chuẩn bị giấy phép, giấy tờ để nộp kèm.
+- [ ] Thông tin liên hệ trong App Store Connect / Play Console đang đúng.
+
+**Apple — tính năng và quyền riêng tư**
+
 | Guideline | Rủi ro | Cách test / kiểm tra | Ghi chú |
 | --- | --- | --- | --- |
-| Apple 4.3(b) Spam | Danh mục bão hòa (tử vi, bói toán, horoscope…) bị từ chối nếu không khác biệt rõ | Ghi rõ điểm khác biệt trong Review Notes; ảnh chụp màn hình thể hiện tính năng riêng | App thuộc danh mục bão hòa: nhấn mạnh tính năng không trùng app khác |
-| Apple 5.1.2(i) AI bên thứ ba | Gửi dữ liệu cá nhân cho AI bên thứ ba mà chưa nói rõ và xin đồng ý | Cài mới → vào tính năng AI: màn đồng ý phải hiện **trước** request đầu tiên (kiểm bằng proxy / network log) | Nêu rõ nhà cung cấp AI và dữ liệu gửi đi |
-| Apple 5.1.1(v) Xóa tài khoản | Có tạo tài khoản mà không xóa được trong app | Đường xóa dễ tìm (vd trong màn Tài khoản); xóa xong dữ liệu biến mất phía server | Chỉ "vô hiệu hóa" là chưa đủ |
-| Apple 4.8 Login | Có đăng nhập bằng Google / Facebook… mà không có lựa chọn đăng nhập bảo vệ quyền riêng tư tương đương | Chạy trên iPhone thật, mọi nút đăng nhập đều hoạt động | Sign in with Apple là cách phổ biến nhất, nhưng từ 01/2024 không còn bắt buộc riêng nó |
-| Apple 1.2 UGC | Nội dung user tạo mà không có lọc, báo cáo, chặn, liên hệ | Mỗi chỗ có post/chat: có nút Báo cáo + Chặn, có cam kết xử lý | Chat, bình luận, bài đóng góp |
-| Apple 3.1.1 IAP | Bán nội dung số không qua IAP trên iOS | Grep link thanh toán ngoài; mua thử bằng sandbox account; test Restore | Một số storefront (Mỹ, EU) có ngoại lệ cho link thanh toán ngoài; storefront Việt Nam vẫn theo 3.1.1 |
-| Apple 4.2 Minimum functionality | App chỉ là wrapper webview | Đếm màn native vs webview; tắt mạng xem app còn gì | Màn webview (bản đồ, trang web) giữ tỷ lệ nhỏ |
-| Apple 2.1 Completeness | Crash, link chết, màn "coming soon", demo account hỏng | Chạy smoke test trên build release + kiểm demo account ngay trước khi nộp | Mọi app |
-| Google Play target API | Target API thấp hơn yêu cầu thì không update được | `targetSdkVersion` trong build.gradle / app.json | Kiểm mỗi lần release |
-| Google Play Data safety | Form khai báo không khớp dữ liệu app thực gửi | So network log (Charles/Proxyman) với form Data safety | Đặc biệt dữ liệu gửi AI, analytics, crash report |
-| Google Play xóa tài khoản | Thiếu xóa trong app **và** link web để xóa | Mở link web khi chưa cài app | Link web phải dùng được khi không có app |
-| Cả hai — Review access | Reviewer không đăng nhập được, cần OTP thật | Demo account không cần OTP, có sẵn dữ liệu mẫu, ghi rõ trong Review Notes | Đừng cho reviewer xóa demo account đang dùng chung |
+| 2.1 Completeness | Crash, link chết, màn "coming soon", demo account hỏng; 2.1(b) gói IAP chưa cấu hình hoặc reviewer không tìm thấy | Smoke test trên build release bằng chính demo account ngay trước khi nộp; mua thử từng gói bằng sandbox | Mọi app |
+| 5.1.1(v) Không bắt đăng nhập | App không có tính năng thật sự cần tài khoản mà vẫn bắt đăng nhập ngay màn đầu | Cài mới, bỏ qua đăng nhập: phần nội dung chung vẫn xem được | Chỉ bắt đăng nhập ở chỗ cần (lưu, đồng bộ, mua) |
+| 5.1.1(v) Xóa tài khoản | Có tạo tài khoản mà không xóa được trong app | Đường xóa dễ tìm (vd trong màn Tài khoản); xóa xong dữ liệu biến mất phía server | Chỉ "vô hiệu hóa" là chưa đủ |
+| 5.1.1(i) Privacy policy | Thiếu link, hoặc chính sách không khớp dữ liệu thực thu thập | Link có ở App Store Connect **và** trong app; nội dung nêu dữ liệu thu thập, mục đích, bên thứ ba, thời gian lưu, cách rút đồng ý, cách xóa | Prompt viết từ source: [ke-hoach-trien-khai-van-hanh](../prompts/ke-hoach-trien-khai-van-hanh.md#privacy-policy) |
+| 5.1.1(ii)–(iv) Đồng ý và quyền | Xin quyền / dữ liệu không cần cho chức năng chính; khóa tính năng trả phí sau việc cấp quyền | Liệt kê permission và trường dữ liệu bắt buộc; thử từ chối từng quyền: app vẫn dùng được phần còn lại | Ưu tiên picker / share sheet thay vì xin toàn quyền ảnh, danh bạ |
+| 5.1.2(i) AI bên thứ ba | Gửi dữ liệu cá nhân cho AI bên thứ ba mà chưa nói rõ và xin đồng ý | Cài mới → vào tính năng AI: màn đồng ý phải hiện **trước** request đầu tiên (kiểm bằng proxy / network log) | Nêu rõ nhà cung cấp AI và dữ liệu gửi đi |
+| 5.1.2(i) Tracking | Theo dõi người dùng qua app / web khác (quảng cáo, attribution) mà không hỏi | Có SDK quảng cáo / attribution thì phải hiện hộp thoại App Tracking Transparency trước khi thu IDFA | Khai báo khớp trong App Privacy |
+| 4.8 Login | Có đăng nhập bằng Google / Facebook… mà không có lựa chọn đăng nhập bảo vệ quyền riêng tư tương đương | Chạy trên iPhone thật, mọi nút đăng nhập đều hoạt động | Sign in with Apple là cách phổ biến nhất, nhưng từ 01/2024 không còn bắt buộc riêng nó |
+| 1.2 UGC | Nội dung user tạo mà không có lọc, báo cáo, chặn, liên hệ | Mỗi chỗ có post/chat: có nút Báo cáo + Chặn, có cam kết xử lý | Chat, bình luận, bài đóng góp; 1.2 nay gồm cả app tạo nội dung bằng AI |
+| 4.7 Chatbot, mini app | Chatbot AI trả nội dung độc hại, không có cách báo cáo, không giới hạn độ tuổi | Thử payload ở [mục 10.2](#102-tấn-công-vào-tính-năng-ai-owasp-top-10-for-llm-2025); kiểm nút báo cáo câu trả lời, cơ chế giới hạn độ tuổi (4.7.5) | Áp dụng cho tính năng **Hỏi AI** của App A và App B |
+| 1.5 Thông tin nhà phát triển | Không có cách liên hệ trong app, Support URL chết | Mở Support URL; tìm mục Liên hệ trong app | |
+| 4.5.4 Push | Bắt bật thông báo mới cho dùng; gửi push quảng cáo khi chưa đồng ý | Từ chối quyền thông báo: app vẫn chạy; push quảng cáo có công tắc riêng, mặc định tắt | |
+| 5.1.5 Vị trí | Xin vị trí khi tính năng không cần | Chỉ xin khi dùng tính năng liên quan, mô tả lý do cụ thể | |
+
+**Apple — thanh toán**
+
+| Guideline | Rủi ro | Cách test / kiểm tra | Ghi chú |
+| --- | --- | --- | --- |
+| 3.1.1 IAP | Bán nội dung số không qua IAP trên iOS; thiếu nút Restore | Grep link thanh toán ngoài; mua thử bằng sandbox account; test Restore trên máy thứ hai | Một số storefront (Mỹ, EU) có ngoại lệ cho link thanh toán ngoài; storefront Việt Nam vẫn theo 3.1.1 |
+| 3.1.2 Subscription | Mô tả gói mơ hồ, kỳ hạn dưới 7 ngày, nâng / hạ gói tạo subscription trùng | Màn mua ghi rõ giá, kỳ hạn, nhận được gì, cách hủy; thử nâng, hạ gói | |
+| 3.1.3(e) Hàng hóa, dịch vụ ngoài app | Dùng IAP sai chỗ, hoặc ngược lại tưởng phải dùng IAP | Hàng vật lý, dịch vụ dùng ngoài app (giao hàng, đặt bàn, vé xe) **không cần IAP**, dùng cổng thanh toán thường | Hay nhầm ở app bán hàng Việt Nam |
+| 5.6.1 / 3.2.2(x) Đánh giá | Tự làm popup xin đánh giá; ép đánh giá mới cho dùng tiếp | Xin đánh giá chỉ qua API của hệ thống (StoreKit `requestReview`) | |
+
+**Apple — thiết kế, metadata, kỹ thuật**
+
+| Guideline | Rủi ro | Cách test / kiểm tra | Ghi chú |
+| --- | --- | --- | --- |
+| 4.3(b) Spam | Danh mục bão hòa (tử vi, bói toán, horoscope…) bị từ chối nếu không khác biệt rõ | Ghi rõ điểm khác biệt trong Review Notes; ảnh chụp màn hình thể hiện tính năng riêng | 4.1: không nhái tên, icon, giao diện app khác |
+| 4.2 Minimum functionality | App chỉ là wrapper webview | Đếm màn native vs webview; tắt mạng xem app còn gì | Màn webview (bản đồ, trang web) giữ tỷ lệ nhỏ |
+| 2.3 Metadata | Ảnh chỉ có màn splash / đăng nhập (2.3.3); age rating khai sai (2.3.6); tên quá 30 ký tự hoặc nhồi từ khóa (2.3.7); ảnh lộ dữ liệu thật (2.3.9); "What's New" chung chung (2.3.12) | Rà store listing trước mỗi lần nộp; ảnh dùng dữ liệu giả | Prompt store listing: [ke-hoach-trien-khai-van-hanh](../prompts/ke-hoach-trien-khai-van-hanh.md#store-listing) |
+| 2.5.2 Tải code / 2.5.19 Tính năng ẩn | Tải code làm đổi chức năng app; tính năng ẩn hoặc bật bằng remote config sau khi đã được duyệt | OTA (Shorebird, EAS Update) chỉ để sửa lỗi; tính năng mới đi qua review; feature flag không giấu tính năng chưa khai báo | Xem [Chọn công nghệ mobile, mục 6](chon-cong-nghe-mobile-app.md#6-build-phát-hành-và-cập-nhật) |
+| 2.5.5 IPv6 | App lỗi trên mạng chỉ có IPv6 (reviewer test trên mạng này) | Không hardcode địa chỉ IPv4; thử bằng NAT64 trên máy Mac | |
+
+**Tùy loại app:** 1.4.1 app sức khỏe phải nêu dữ liệu và phương pháp; 1.3 và 5.1.4 app cho trẻ em không dùng analytics, quảng cáo bên thứ ba; 1.2.1 app creator cần giới hạn độ tuổi; 3.1.5 tiền mã hóa, 5.3 cờ bạc, 5.4 VPN cần tài khoản tổ chức và giấy phép.
+
+**Google Play**
+
+| Yêu cầu | Rủi ro | Cách test / kiểm tra | Ghi chú |
+| --- | --- | --- | --- |
+| Closed test 12 người, 14 ngày | Tài khoản cá nhân tạo sau 13/11/2023 không mở được Production | Chạy closed test với ≥ 12 người opt-in **liên tục** 14 ngày trước khi xin quyền Production | Bắt đầu sớm, song song lúc làm M4–M5 |
+| Target API | Target API thấp hơn yêu cầu thì không update được | `targetSdkVersion` trong build.gradle / app.json | Kiểm mỗi lần release |
+| Quyền ảnh, video | Xin `READ_MEDIA_IMAGES` / `READ_MEDIA_VIDEO` khi chỉ cần chọn vài ảnh | Dùng Android Photo Picker; giữ quyền rộng thì phải nộp form khai báo và chứng minh | Chọn ảnh đại diện, đính kèm ảnh: dùng picker |
+| Foreground service | Thiếu loại foreground service trong manifest (crash trên Android 14+) hoặc thiếu khai báo trong Play Console | Khai báo đúng loại trong manifest; khai báo trong App content kèm mô tả và video demo | Chạy nền định vị, phát nhạc, đồng bộ dữ liệu |
+| Data safety | Form khai báo không khớp dữ liệu app thực gửi | So network log (Charles/Proxyman) với form Data safety | Đặc biệt dữ liệu gửi AI, analytics, crash report |
+| Xóa tài khoản | Thiếu xóa trong app **và** link web để xóa | Mở link web khi chưa cài app | Link web phải dùng được khi không có app |
+
+**Cả hai — quyền truy cập cho reviewer:** demo account không cần OTP, có sẵn dữ liệu mẫu, ghi rõ trong Review Notes; đừng cho reviewer xóa demo account đang dùng chung. Thông tin này lưu ở [templates/store-review.md](../templates/store-review.md).
+
+**Sau khi nộp**
+
+- **Bị từ chối:** đọc kỹ guideline được dẫn, trả lời trong App Store Connect (giải thích hoặc gửi thêm thông tin) trước khi nộp lại; nộp lại mà vẫn vi phạm cùng một mục sẽ làm review chậm hơn.
+- **Không đồng ý:** gửi **appeal** cho App Review Board.
+- **Cần gấp thật** (sự cố nghiêm trọng, sự kiện có hạn): xin **expedited review**. Đừng dùng thường xuyên, Apple có thể từ chối các lần sau.
+- **App đã có trên store đang bị chặn update:** Apple có thể cho duyệt bản **sửa lỗi** dù còn vi phạm guideline (trừ vi phạm pháp lý, an toàn), kèm cam kết sửa ở lần nộp sau.
 
 **Prompt mẫu — rà app trước khi nộp store:**
 
 ```
 Đóng vai App Store reviewer và Google Play policy reviewer. Đọc source app ở <đường dẫn> (Flutter / React Native),
-Info.plist, AndroidManifest, app.json / pubspec, các màn đăng nhập, tài khoản, AI, nội dung user tạo, thanh toán.
-Rà theo: 2.1 hoàn thiện, 4.3 spam / danh mục bão hòa, 4.2 webview, 4.8 đăng nhập tương đương Sign in with Apple, 5.1.1(v) xóa tài khoản,
-5.1.2 gửi dữ liệu cho AI bên thứ ba, 1.2 nội dung user tạo, 3.1.1 IAP, permission khai báo mà không dùng,
-Google Play target API, Data safety, link web xóa tài khoản, demo account cho reviewer.
+Info.plist, AndroidManifest, app.json / pubspec, store listing, các màn đăng nhập, tài khoản, AI, nội dung user tạo, thanh toán.
+Rà theo:
+- Apple: 2.1 hoàn thiện + gói IAP reviewer thấy được, 2.3 metadata (ảnh, age rating, tên, What's New), 2.5.2 tải code / OTA,
+  2.5.19 tính năng ẩn, 4.2 webview, 4.3 spam / danh mục bão hòa, 4.7 chatbot AI, 4.8 đăng nhập tương đương, 4.5.4 push,
+  5.1.1 privacy policy / đồng ý / không bắt đăng nhập / xóa tài khoản, 5.1.2 AI bên thứ ba và tracking,
+  1.2 nội dung user tạo, 1.5 liên hệ, 3.1.1 IAP + Restore, 3.1.2 subscription, 5.6.1 xin đánh giá
+- Google: target API, quyền ảnh / video, foreground service, Data safety, link web xóa tài khoản
+- Cả hai: permission khai báo mà không dùng, demo account cho reviewer
 Bảng: mục | bằng chứng file:dòng | rủi ro (cao / trung / thấp) | cách sửa. Không sửa code, chỉ báo cáo.
 ```
 
@@ -630,9 +687,9 @@ Dựa vào source, không bịa tính năng.
 - [ ] Lighthouse / Core Web Vitals đạt ngưỡng; app mở lạnh < 3s trên máy tầm trung
 - [ ] Leak test bật, không có leak mới
 - [ ] Screenshot test + a11y (axe, `meetsGuideline`) xanh
-- [ ] Store: xóa tài khoản, đồng ý AI, đăng nhập tương đương Sign in with Apple (4.8), UGC báo cáo/chặn, Data safety khớp network log
-- [ ] Demo account dùng được, Review Notes đã cập nhật
-- [ ] Target API / SDK đúng yêu cầu hiện tại
+- [ ] Store: rà đủ phần Store trong [templates/checklist-release.md](../templates/checklist-release.md) (tài khoản, quyền riêng tư, nội dung, thanh toán, nộp bản)
+- [ ] Demo account dùng được, backend chạy suốt thời gian review, Review Notes đã cập nhật
+- [ ] Target API / SDK đúng yêu cầu hiện tại; tài khoản Google cá nhân mới đã qua closed test 12 người / 14 ngày
 
 ### Lỗi thường gặp
 
@@ -660,5 +717,6 @@ Dựa vào source, không bịa tính năng.
 - [Claude Code — security review](https://github.com/anthropics/claude-code-security-review)
 - [Apple App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
 - [Google Play — target API level](https://developer.android.com/google/play/requirements/target-sdk) · [Data safety](https://support.google.com/googleplay/android-developer/answer/10787469) · [Account deletion](https://support.google.com/googleplay/android-developer/answer/13327111)
+- [Google Play — closed test cho tài khoản cá nhân mới](https://support.google.com/googleplay/android-developer/answer/14151465) · [Quyền ảnh, video](https://support.google.com/googleplay/android-developer/answer/16935362) · [Foreground service](https://support.google.com/googleplay/android-developer/answer/13392821)
 - [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)
 - [OWASP Automated Threats to Web Applications](https://owasp.org/www-project-automated-threats-to-web-applications/)

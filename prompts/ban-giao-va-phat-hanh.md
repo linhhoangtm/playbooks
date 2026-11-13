@@ -79,10 +79,14 @@ Từ git log <tag cũ>..HEAD và danh sách issue đã đóng, viết release no
 
 ```
 Đóng vai App Store reviewer và Google Play policy reviewer. Đọc source app ở <đường dẫn> (Flutter / React Native),
-Info.plist, AndroidManifest, app.json / pubspec, các màn đăng nhập, tài khoản, AI, nội dung user tạo, thanh toán.
-Rà theo: 2.1 hoàn thiện, 4.3 spam / danh mục bão hòa, 4.2 webview, 4.8 đăng nhập tương đương Sign in with Apple, 5.1.1(v) xóa tài khoản,
-5.1.2 gửi dữ liệu cho AI bên thứ ba, 1.2 nội dung user tạo, 3.1.1 IAP, permission khai báo mà không dùng,
-Google Play target API, Data safety, link web xóa tài khoản, demo account cho reviewer.
+Info.plist, AndroidManifest, app.json / pubspec, store listing, các màn đăng nhập, tài khoản, AI, nội dung user tạo, thanh toán.
+Rà theo:
+- Apple: 2.1 hoàn thiện + gói IAP reviewer thấy được, 2.3 metadata (ảnh, age rating, tên, What's New), 2.5.2 tải code / OTA,
+  2.5.19 tính năng ẩn, 4.2 webview, 4.3 spam / danh mục bão hòa, 4.7 chatbot AI, 4.8 đăng nhập tương đương, 4.5.4 push,
+  5.1.1 privacy policy / đồng ý / không bắt đăng nhập / xóa tài khoản, 5.1.2 AI bên thứ ba và tracking,
+  1.2 nội dung user tạo, 1.5 liên hệ, 3.1.1 IAP + Restore, 3.1.2 subscription, 5.6.1 xin đánh giá
+- Google: target API, quyền ảnh / video, foreground service, Data safety, link web xóa tài khoản
+- Cả hai: permission khai báo mà không dùng, demo account cho reviewer
 Bảng: mục | bằng chứng file:dòng | rủi ro (cao / trung / thấp) | cách sửa. Không sửa code, chỉ báo cáo.
 ```
 
@@ -111,5 +115,8 @@ Dựa vào source, không bịa tính năng.
 ```
 App bị từ chối với nội dung: <dán thư của Apple / Google>.
 Giải thích họ đang nói gì, guideline nào, cần sửa gì trong app (file:dòng nếu tìm được).
+Đề xuất một hướng: sửa rồi nộp lại / trả lời giải thích trong App Store Connect / appeal / xin duyệt bản sửa lỗi
+(nếu app đã có trên store và lỗi không thuộc pháp lý, an toàn) — kèm lý do.
 Soạn thư trả lời ngắn, lịch sự, tiếng Anh: đã sửa gì hoặc giải thích vì sao app không vi phạm.
+Ghi một dòng vào docs/store-review.md theo mẫu templates/store-review.md.
 ```

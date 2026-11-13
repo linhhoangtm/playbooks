@@ -1,6 +1,6 @@
 # Chọn công nghệ làm mobile app
 
-Cập nhật: 2026-11-12
+Cập nhật: 2026-11-13
 
 Không có công nghệ mobile “tốt nhất”, chỉ có công nghệ hợp với team, loại app và ngân sách. Năm 2026, với đa số team nhỏ, lựa chọn thực tế là **Flutter** hoặc **React Native**, tùy team đang quen Dart hay TypeScript. Native và Kotlin Multiplatform hợp khi cần tích hợp sâu với hệ điều hành hoặc đã có sẵn code Android/iOS. Tình trạng từng công nghệ được kiểm tra theo tài liệu chính thức tới tháng 11/2026 (xem mục Nguồn).
 
@@ -123,7 +123,7 @@ Chọn công nghệ xong, đừng quên phần chi phí và quy trình ra store.
 | Flutter | [Shorebird](https://shorebird.dev) | Code Dart; thay đổi native và plugin mới vẫn phải lên store |
 | Native, KMP | Không có cơ chế tương đương phổ biến | Mọi thay đổi qua store; dùng feature flag / remote config để bật tắt tính năng |
 
-OTA hợp để sửa lỗi gấp. Không dùng OTA để thêm tính năng lớn hay đổi mục đích app nhằm né review: cả Apple và Google đều cấm, và app có thể bị gỡ. Đọc chính sách hiện hành của từng store trước khi bật.
+OTA hợp để sửa lỗi gấp. Không dùng OTA để thêm tính năng lớn hay đổi mục đích app nhằm né review: Apple cấm tải code làm đổi chức năng app (guideline 2.5.2) và tính năng ẩn (2.5.19), Google cũng có quy định tương tự; app có thể bị gỡ. Danh sách rủi ro store đầy đủ: [Dùng Claude để test web app và mobile app, mục 11.2](claude-test-web-mobile.md#112-rủi-ro-bị-app-store--google-play-từ-chối).
 
 **Sau khi phát hành:** cài crash report (Crashlytics, Sentry) và analytics ngay từ bản đầu, kèm một remote config / feature flag để tắt nhanh tính năng lỗi mà không cần chờ review.
 

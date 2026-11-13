@@ -45,12 +45,35 @@
 
 ## Store (nếu là app mobile)
 
+Chi tiết từng mục và cách test: [guide test, mục 11.2](../guides/claude-test-web-mobile.md#112-rủi-ro-bị-app-store--google-play-từ-chối).
+
+**Tài khoản và quyền riêng tư**
+
+- [ ] Phần không cần tài khoản dùng được khi chưa đăng nhập (Apple 5.1.1(v))
 - [ ] Xóa tài khoản trong app (và link web cho Google Play)
-- [ ] Màn đồng ý trước khi gửi dữ liệu cho AI bên thứ ba
+- [ ] Privacy policy có link ở App Store Connect / Play Console **và** trong app
+- [ ] Màn đồng ý trước khi gửi dữ liệu cho AI bên thứ ba; có tracking thì hiện App Tracking Transparency
 - [ ] Có đăng nhập Google / Facebook → có lựa chọn đăng nhập bảo vệ quyền riêng tư tương đương (vd Sign in with Apple, guideline 4.8)
-- [ ] Nội dung user tạo có báo cáo, chặn, lọc
-- [ ] Nội dung số trên iOS bán qua IAP, có Restore
-- [ ] Permission khai báo đều dùng thật, mô tả rõ ràng
-- [ ] Target API Android đạt yêu cầu hiện hành
+- [ ] Permission khai báo đều dùng thật, mô tả rõ ràng; từ chối quyền thì app vẫn dùng được phần còn lại
+- [ ] Android: chọn ảnh bằng Photo Picker, không xin `READ_MEDIA_*` nếu không cần; foreground service khai báo đúng loại
 - [ ] Data safety / App Privacy khớp dữ liệu app thực gửi (đối chiếu network log)
-- [ ] Demo account dùng được, không cần OTP; Review Notes đã cập nhật
+
+**Nội dung và tính năng**
+
+- [ ] Nội dung user tạo, chatbot AI có lọc, báo cáo, chặn; có giới hạn độ tuổi nếu cần
+- [ ] Có cách liên hệ trong app, Support URL mở được
+- [ ] Không bắt bật thông báo mới cho dùng; push quảng cáo có công tắc riêng
+- [ ] Không có tính năng ẩn; OTA chỉ dùng để sửa lỗi
+
+**Thanh toán**
+
+- [ ] Nội dung số trên iOS bán qua IAP, có Restore; hàng vật lý / dịch vụ ngoài app dùng cổng thanh toán thường
+- [ ] Subscription ghi rõ giá, kỳ hạn, quyền lợi, cách hủy; nâng / hạ gói không tạo gói trùng
+- [ ] Xin đánh giá qua API hệ thống, không popup tự làm
+
+**Nộp bản**
+
+- [ ] Ảnh chụp cho thấy app đang dùng, dữ liệu giả; age rating khai đúng; "Có gì mới" mô tả thay đổi thật
+- [ ] Target API Android đạt yêu cầu hiện hành; bản đầu của tài khoản cá nhân mới đã qua closed test 12 người / 14 ngày
+- [ ] Demo account dùng được, không cần OTP; gói IAP đã cấu hình; backend chạy suốt thời gian review
+- [ ] Review Notes đã cập nhật; lỗi cũ trong `docs/store-review.md` không lặp lại

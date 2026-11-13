@@ -13,8 +13,11 @@ Ghi mỗi lần nộp bị từ chối hoặc bị cảnh báo. Trước mỗi l
 - Tính năng AI: nhà cung cấp <...>, dữ liệu gửi đi <...>, màn đồng ý <ở đâu>
 - Xóa tài khoản: trong app <đường dẫn menu> · link web: <url>
 
+- Giấy phép / giấy tờ cho ngành có quản lý (nếu có): <...>
+- Google Play: closed test <ngày bắt đầu> – <ngày đủ 14 ngày>, <số> người opt-in
+
 ## Lịch sử
 
-| Ngày | Nền tảng | Phiên bản | Kết quả | Guideline / chính sách | Nội dung thư (tóm tắt) | Đã sửa gì | Lần sau kiểm thế nào |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| <dd/mm/yyyy> | <iOS> | <1.2.0 (34)> | <Từ chối> | <5.1.1(v)> | <...> | <...> | <thêm vào checklist-release.md> |
+| Ngày | Nền tảng | Phiên bản | Kết quả | Guideline / chính sách | Nội dung thư (tóm tắt) | Cách xử lý | Đã sửa gì | Lần sau kiểm thế nào |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| <dd/mm/yyyy> | <iOS> | <1.2.0 (34)> | <Từ chối> | <5.1.1(v)> | <...> | <sửa và nộp lại / trả lời giải thích / appeal / duyệt bản sửa lỗi> | <...> | <thêm vào checklist-release.md> |
