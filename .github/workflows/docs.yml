@@ -1,0 +1,48 @@
+name: Kiểm tra tài liệu
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 2 * * 1" # 9:00 sáng thứ Hai giờ Việt Nam: bắt link ngoài bị chết theo thời gian
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npx --yes markdownlint-cli2@0.24.1
+
+  internal-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/check_links.py
+
+  external-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          # 403 / 429: trang chặn trình kiểm tra tự động, không phải link chết
+          args: >-
+            --no-progress
+            --accept 200..=299,403,429
+            --exclude-loopback
+            --exclude-path local
+            --max-retries 3
+            --timeout 30
+            './**/*.md'
+          fail: true

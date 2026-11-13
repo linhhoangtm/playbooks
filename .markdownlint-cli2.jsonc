@@ -1,0 +1,20 @@
+{
+  // Quy tắc markdownlint cho tài liệu tiếng Việt: https://github.com/DavidAnson/markdownlint
+  "config": {
+    "default": true,
+    // Câu dài và bảng rộng là bình thường với tài liệu tiếng Việt
+    "MD013": false,
+    // Cho phép comment HTML hướng dẫn điền trong template
+    "MD033": false,
+    // Template bắt đầu bằng tiêu đề có placeholder; cho phép tiêu đề trùng ở các mục khác nhau
+    "MD024": { "siblings_only": true },
+    // Dòng in đậm làm nhãn cho prompt mẫu ("**Prompt mẫu: ...**") là chủ ý
+    "MD036": false,
+    // Code block prompt không ghi ngôn ngữ để copy cho gọn
+    "MD040": false,
+    // Code Go dùng tab theo gofmt
+    "MD010": { "code_blocks": false }
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["local/**", "node_modules/**"]
+}

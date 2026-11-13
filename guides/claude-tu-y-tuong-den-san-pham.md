@@ -1,6 +1,6 @@
 # Hướng dẫn dùng Claude xây dựng sản phẩm từ ý tưởng
 
-Cập nhật: 2026-11-12
+Cập nhật: 2026-11-13
 
 Đi từ ý tưởng đến app đã phát hành qua 9 giai đoạn. Mỗi giai đoạn dùng công cụ phù hợp của Claude và ra một deliverable cụ thể, rồi deliverable đó làm context cho giai đoạn sau. Ví dụ xuyên suốt: app mobile **Flutter**, backend **Go hoặc FastAPI**, database **PostgreSQL**.
 
@@ -59,13 +59,15 @@ Bạn là tech lead cho dự án <tên app>. Stack: Flutter (BLoC), Go hoặc Fa
 - Trả lời bằng tiếng Việt, giữ thuật ngữ kỹ thuật bằng tiếng Anh, ngắn gọn.
 ```
 
-### 5 nguyên tắc vàng
+### 5 nguyên tắc làm việc với Claude
 
-- **Context quan trọng hơn prompt hay.** Hãy đưa PRD, schema và code mẫu thay vì mô tả bằng lời.
-- **Mỗi phiên làm một việc.** Phiên lẫn nhiều chủ đề làm Claude dễ nhầm và tốn token.
-- **Bắt Claude hỏi trước.** Thêm câu “Hỏi tôi tối đa 5 câu nếu còn thiếu thông tin” vào prompt.
-- **Claude đề xuất, bạn quyết định.** Kiến trúc, schema, bảo mật và chi phí là những thứ bạn phải tự duyệt.
-- **Luôn kiểm chứng.** Chạy test, đọc diff, mở lại nguồn tham khảo. Đừng tin output khi chưa kiểm tra.
+Dùng chung cho mọi tài liệu trong repo ([prompts/README.md](../prompts/README.md#5-nguyên-tắc-làm-việc-với-claude)):
+
+1. **Bối cảnh trước, yêu cầu sau.** Nói rõ bạn là ai, dự án là gì, đã có gì. Đưa tài liệu thật (PRD, schema, code mẫu) thay vì mô tả bằng lời; để sẵn trong Project hoặc `CLAUDE.md` để khỏi lặp lại.
+2. **Nói rõ đầu ra và giới hạn.** Định dạng (bảng, checklist, file), độ dài, ngôn ngữ; số mục, số màn, "chưa viết code", "không sửa file X".
+3. **Bắt Claude hỏi lại hoặc đánh dấu giả định** thay vì tự điền chỗ trống: "Hỏi tôi tối đa 5 câu nếu còn thiếu", "đánh dấu [GIẢ ĐỊNH]".
+4. **Một việc một lần.** Việc lớn thì chia bước, duyệt từng bước; mỗi phiên chat một chủ đề, xong thì mở phiên mới.
+5. **Claude đề xuất, bạn quyết và kiểm chứng.** Kiến trúc, schema, bảo mật, chi phí do bạn duyệt. Chạy test, đọc diff, mở lại nguồn trước khi tin kết quả.
 
 ## 1. Ý tưởng → kiểm chứng thị trường
 
@@ -526,7 +528,7 @@ Giá tham khảo tháng 11/2026, bằng USD, chưa gồm thuế. Kiểm lại tr
 
 | Khoản | Mức | Ghi chú |
 | --- | --- | --- |
-| Gói Claude | Pro $20/tháng; Max $100 hoặc $200/tháng | Claude Code và Claude Design dùng chung hạn mức gói. Làm hằng ngày nhiều giờ thường cần Max ([claude.com/pricing](https://claude.com/pricing)) |
+| Gói Claude | Pro $20/tháng; Max $100 hoặc $200/tháng | Claude Code dùng hạn mức của gói; Claude Design tính hạn mức tuần riêng. Làm hằng ngày nhiều giờ thường cần Max ([claude.com/pricing](https://claude.com/pricing)) |
 | Tính năng AI trong app | Tính theo token qua Claude API | Đặt quota theo user và `max_tokens` ngay từ đầu; ước tính = số user hoạt động × số lượt / ngày × token / lượt |
 | Server | VPS $5–20/tháng cho MVP; PaaS hoặc BaaS có gói miễn phí giới hạn | Thêm backup DB và object storage |
 | Tài khoản nhà phát triển | Apple $99/năm; Google Play $25 một lần | Đăng ký tài khoản tổ chức cần mã số D-U-N-S, mất vài ngày đến vài tuần |

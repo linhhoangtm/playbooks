@@ -1,6 +1,6 @@
 # Chọn kiến trúc phần mềm phù hợp
 
-Cập nhật: 2026-11-12
+Cập nhật: 2026-11-13
 
 Chọn kiến trúc không dựa vào công nghệ đang “hot”, mà là cân bằng giữa nhu cầu kinh doanh, năng lực đội ngũ và ràng buộc kỹ thuật. Nội dung được đối chiếu với nguồn gốc: Martin Fowler, sách Google SRE, báo cáo DORA 2025, case study của Shopify, Twilio Segment, Amazon Prime Video và các repo GitHub phổ biến (xem mục Nguồn ở cuối). Các mốc về số user hay dung lượng chỉ để định hướng, không phải quy tắc.
 
@@ -109,10 +109,10 @@ Dùng DDD cho một app CRUD chỉ làm code dài thêm mà không mang lại l�
 
 - **Định luật Conway:** cấu trúc của hệ thống phản ánh cấu trúc của tổ chức tạo ra nó. Một team thì nên có một deployable; nhiều team độc lập mới cần nhiều service.
 - **Điều kiện tiên quyết trước khi dùng microservices** ([Martin Fowler](https://martinfowler.com/bliki/MicroservicePrerequisites.html)). Thay vì đếm số người, hãy kiểm tra team đã có đủ 4 năng lực này chưa:
-    - Dựng server mới trong vài giờ (rapid provisioning).
-    - Monitoring cơ bản cho cả chỉ số kỹ thuật lẫn nghiệp vụ, và rollback được nhanh.
-    - Pipeline deploy lên test và production trong tối đa vài giờ.
-    - Văn hóa DevOps: dev và vận hành cùng xử lý sự cố.
+  - Dựng server mới trong vài giờ (rapid provisioning).
+  - Monitoring cơ bản cho cả chỉ số kỹ thuật lẫn nghiệp vụ, và rollback được nhanh.
+  - Pipeline deploy lên test và production trong tối đa vài giờ.
+  - Văn hóa DevOps: dev và vận hành cùng xử lý sự cố.
 - **Không có con số “bao nhiêu người” chuẩn.** Thiếu một trong 4 năng lực trên thì chưa nên dùng microservices, dù team đông hay ít. Các mốc kiểu “dưới 5–10 người” chỉ là kinh nghiệm truyền miệng, không có nguồn chuẩn.
 - **Kỹ năng hiện có:** ưu tiên kiến trúc và công nghệ team đã làm thực tế, trừ khi dự án có mục tiêu R&D dài hạn.
 
@@ -158,11 +158,11 @@ Báo cáo [DORA 2025](https://dora.dev/research/ai) của Google, khảo sát g�
 - **Công nghệ phổ biến, “nhàm chán”:** AI viết tốt với stack phổ biến, nhiều tài liệu. Framework mới hoặc ít người dùng dễ khiến AI bịa API. Ghi rõ phiên bản trong tài liệu dự án.
 - **Ranh giới được kiểm tra tự động:** đừng chỉ viết “module A không được gọi module B” trong tài liệu. Hãy dùng linter, test kiến trúc hoặc hook để build báo lỗi khi vi phạm, giống cách Shopify dùng Packwerk. AI sẽ tuân thủ vì bị build chặn.
 - **Tài liệu là một phần của kiến trúc:** `ARCHITECTURE.md`, ADR và file hướng dẫn cho AI giúp mọi phiên AI hiểu cùng một kiến trúc.
-    - [`AGENTS.md`](https://agents.md) là định dạng mở dùng chung cho nhiều công cụ (Copilot, Codex, Cursor, Gemini…).
-    - Copilot đọc `.github/copilot-instructions.md` và `AGENTS.md`.
-    - Claude Code đọc `CLAUDE.md`; các bản gần đây có thể đọc `AGENTS.md` khi repo không có `CLAUDE.md` (kiểm tra changelog của bản bạn dùng).
-    - Team chỉ dùng Claude Code: một file `CLAUDE.md` là đủ (mẫu: [templates/CLAUDE.md](../templates/CLAUDE.md)).
-    - Team dùng nhiều công cụ AI: viết nội dung chung trong `AGENTS.md`; `CLAUDE.md` chỉ cần dòng `@AGENTS.md` để import, cộng với phần riêng cho Claude nếu có. Các guide khác trong repo này gọi chung là `CLAUDE.md`.
+  - [`AGENTS.md`](https://agents.md) là định dạng mở dùng chung cho nhiều công cụ (Copilot, Codex, Cursor, Gemini…).
+  - Copilot đọc `.github/copilot-instructions.md` và `AGENTS.md`.
+  - Claude Code đọc `CLAUDE.md`. Từ bản 2.1.277 (09/2026), thư mục không có `CLAUDE.md` thì Claude Code đọc `AGENTS.md`; có cả hai thì **chỉ dùng `CLAUDE.md`**, nên cần dòng import ở dưới.
+  - Team chỉ dùng Claude Code: một file `CLAUDE.md` là đủ (mẫu: [templates/CLAUDE.md](../templates/CLAUDE.md)).
+  - Team dùng nhiều công cụ AI: viết nội dung chung trong `AGENTS.md`; `CLAUDE.md` chỉ cần dòng `@AGENTS.md` để import, cộng với phần riêng cho Claude nếu có. Các guide khác trong repo này gọi chung là `CLAUDE.md`.
 
 **Claude Code và Copilot: có khác gì cho kiến trúc?**
 

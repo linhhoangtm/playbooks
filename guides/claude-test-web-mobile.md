@@ -172,7 +172,7 @@ Nếu code không kiểm tra giới hạn mà lẽ ra phải có, ghi lại như
 
 Hai dự án dưới đây là mô hình rút gọn từ dự án thật; tên, đường dẫn và số liệu đã được đổi. Thay bằng cấu trúc repo của bạn.
 
-|  | App A | App B |
+| Mục | App A | App B |
 | --- | --- | --- |
 | Nội dung | App lịch, sổ tay, gia đình, trợ lý AI, thanh toán gói | App tra cứu tri thức: bách khoa, kho tư liệu, hỏi đáp AI có trích dẫn |
 | Mobile | Flutter: Android, iOS, web | React Native + Expo |

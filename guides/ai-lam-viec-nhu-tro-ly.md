@@ -1,6 +1,6 @@
 # Hướng dẫn AI làm việc như trợ lý — kèm prompt mẫu
 
-Cập nhật: 2026-11-12
+Cập nhật: 2026-11-13
 
 Cách giao việc để AI (Claude, ChatGPT, Gemini…) làm đúng ý bạn, không cần biết lập trình. Mọi prompt mẫu đều copy dùng được ngay, bạn chỉ cần thay phần trong `<ngoặc nhọn>`.
 
@@ -62,6 +62,8 @@ Nếu thiếu thông tin, hãy hỏi tôi trước khi làm.
 | “Làm bài đăng Facebook.” | “Viết 3 phiên bản bài đăng Facebook giới thiệu bánh mới, mỗi bài kết thúc bằng 1 câu mời đặt hàng.” |
 
 **Mẹo:** câu cuối “nếu thiếu thông tin, hãy hỏi tôi trước” giúp AI không tự đoán bừa. Đây là câu nên thêm vào hầu hết prompt.
+
+Công thức này giúp viết **từng prompt**. Khi làm việc dài hơi với AI (dự án, sản phẩm), xem thêm [5 nguyên tắc làm việc với Claude](../prompts/README.md#5-nguyên-tắc-làm-việc-với-claude) dùng chung cho cả repo.
 
 ## 3. Dặn một lần, dùng mãi
 
